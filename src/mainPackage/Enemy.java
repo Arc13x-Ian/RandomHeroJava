@@ -68,5 +68,7 @@ public abstract class Enemy
 	}
 	
 	public abstract void takeTurn();
+	
+	public abstract void takeDamage(int damage);
 
 }

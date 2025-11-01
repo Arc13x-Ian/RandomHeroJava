@@ -64,5 +64,12 @@ public class ability
 				
 		}
 	}
+	
+	//methods
+	
+	public boolean getPassive()
+	{
+		return isPassive;
+	}
 
 }

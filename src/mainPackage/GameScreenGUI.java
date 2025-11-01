@@ -20,8 +20,11 @@
 package mainPackage;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.GridLayout;
+import java.util.ArrayList;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -43,8 +46,11 @@ public class GameScreenGUI extends JFrame
 	private JPanel actionMenu;
 	private JPanel combatLog;
 	private JPanel battleScreen;
+	private JLabel battleView; //I may need to use this instead of a panel?
 	private JPanel upgradeScreen;
 	private JPanel startScreen;
+	
+	ImageIcon combatBG = new ImageIcon("images/CombatBG.png");
 	
 	private boolean playing;
 	
@@ -52,7 +58,11 @@ public class GameScreenGUI extends JFrame
 	
 	//fields for mockup
 	private JButton testButton;
-	
+	ArrayList<Enemy> testCombat; //this is until I properly have combat's related classes set up
+	ImageIcon tempHeroIcon = new ImageIcon("images/tempHeroToken.png");
+	ImageIcon tempGobIcon = new ImageIcon("images/tempGoblinToken.png");
+	private JLabel heroToken;
+	private JLabel gobToken;
 	
 	//Constructors
 	
@@ -60,17 +70,22 @@ public class GameScreenGUI extends JFrame
 	{
 		player = inPlayer;
 		this.setLayout(new BorderLayout());
-		this.setSize(1920, 1080);
+		this.setBackground(Color.BLUE);
+		this.setSize(1000, 1080);
 		this.setTitle("RandoHero v_0.0.1");
 		
+		// SECTION FOR TESTING, DELETE WHEN MAKING FULL GUI
 		testButton = new JButton("MOCKUP");
 		testButton.setSize(900,900);
+		
+		setupTestBattleView();
+		// END SECTION FOR TESTING
 		setupActionMenu();
 		setupCombatLog();
 		setupPlayerStats();
 		
 		add(playerStats, BorderLayout.WEST);
-		add(testButton, BorderLayout.CENTER);
+		add(battleView, BorderLayout.CENTER);
 		add(combatLog, BorderLayout.EAST);
 		add(actionMenu, BorderLayout.SOUTH);
 		
@@ -128,6 +143,56 @@ public class GameScreenGUI extends JFrame
 		for (int i = 0; i < playerStatsArray.length; i++)
 		{
 			playerStats.add(playerStatsArray[i]);
+		}
+	}
+	
+	public void setupNewBattleScreen(ArrayList<Enemy> combatEnemies)
+	{
+		battleScreen = new JPanel();
+		
+		battleScreen.setLayout(new GridLayout(4,4));
+		//TODO: in order to set an icon background for a JPanel I'm going to need to make a new class
+		//extend JPanel, and override
+		battleScreen.setBackground(Color.BLUE); 
+		//TODO: POTENTIALLY ABANDONED, TESTING USING JLABEL
+	}
+	
+	public void setupTestBattleView()
+	{
+		//TODO: require input of an array list of enemies
+		//TODO: change name to setupNewBattleView when actually working properly
+		battleView = new JLabel();
+		heroToken = new JLabel();
+		gobToken = new JLabel();
+		int counter = 0;
+		
+		battleView.setLayout(new GridLayout(4,4)); //...why can you use a label like a panel?
+		battleView.setIcon(combatBG);
+		
+		//now, the first 9 cells will be empty
+		for (int i = 0; i < 9; i++)
+		{
+			battleView.add(new JLabel());
+			counter++;
+		}
+		//next, we have the player character icon in cell 10
+		heroToken.setIcon(tempHeroIcon);
+		battleView.add(heroToken);
+		counter++;
+		
+		//TODO: instead of simply setting down the goblin token, the method SHOULD:
+		//check to see how many enemies there are in combat
+		//then set down the enemies into cells 11, 12, 15, and 16
+		//no enemies in cells 13/14 as they are on the "Hero side" of the combat view
+		gobToken.setIcon(tempGobIcon);
+		battleView.add(gobToken);
+		counter++;
+		
+		// then, we fill in the rest of the cells blankly
+		while (counter < 16)
+		{
+			battleView.add(new JLabel());
+			counter++;
 		}
 	}
 
