@@ -35,12 +35,14 @@ public class PlayerCharacter
 	private int maxMP;
 	private ArrayList<ability> abilityList;
 	
+	private CombatManager combat;
+	
 	//constructors
 	public PlayerCharacter(String inName)
 	{
 		name = inName;
 		healthPoints = 50;
-		manaPoints = 25;
+		manaPoints = 10;
 		maxHP = 50;
 		maxMP = 25;
 	}
@@ -49,7 +51,8 @@ public class PlayerCharacter
 	
 	public void attack(Enemy target)
 	{
-		target.takeDamage(10);
+		target.takeDamage(5);
+		combat.enemyTurn();
 	}
 	
 	public void focus()
@@ -62,6 +65,15 @@ public class PlayerCharacter
 		{
 			manaPoints = maxMP;
 		}
+		
+		System.out.println("Focusing...");
+		combat.enemyTurn();
+	}
+	
+	public void scan()
+	{
+		combat.scan();
+		combat.enemyTurn();
 	}
 	
 	public void learnSkill(ability newSkill)
@@ -88,6 +100,22 @@ public class PlayerCharacter
 		return skillList;
 	}
 	
+	public void takeDamage(int dmg)
+	{
+		healthPoints -= dmg;
+		//debug message
+		System.out.println(name + " takes " + dmg + " dmg!");
+		
+		if (healthPoints <= 0)
+		{
+			//TODO: Lose the game if HP is 0 or less.
+			
+			//debug message
+			System.out.println(name + "has died!");
+			combat.endCombat(1);
+		}
+	}
+	
 	//getters and setters
 	public String getName()
 	{
@@ -102,5 +130,10 @@ public class PlayerCharacter
 	public int getMana()
 	{
 		return manaPoints;
+	}
+	
+	public void setCombatManager(CombatManager inCom)
+	{
+		combat = inCom;
 	}
 }

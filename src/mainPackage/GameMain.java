@@ -24,7 +24,10 @@ public class GameMain
 	public static void main(String[] args)
 	{
 		PlayerCharacter player = new PlayerCharacter("TestHero");
-		GameScreenGUI game = new GameScreenGUI(player);
+		Enemy testGob = new Goblin(1); //TESTING LINE, DELETE IN FUTURE
+		CombatManager combatManager = new CombatManager(player, testGob);
+		GameScreenGUI game = new GameScreenGUI(player, combatManager);
+		combatManager.beginCombat();
 	}
 
 }

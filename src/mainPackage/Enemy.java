@@ -30,15 +30,18 @@ public abstract class Enemy
 	//fields
 	private String name;
 	private int weakness; //elemental weaknesses. 0 = none, 1 = fire, 2 = ice,
-	private int health;
+	public int health;
 	private int difficultyVal; //maybe? If we're not doing sequential floors and we're doing random enemies, we'll want a diffValue to randomize
 	private int enemySeed; //juuust in case, we can define enemies by their seed and use a lot of switch cases
+	
+	public PlayerCharacter target; //even though a combat managing class will exist, enemies need to be able to call PC commands.
+	public CombatManager combat;
 	
 	//enemy key: 0 = goblin, 1 = ice sprite, 99 = demon
 	
 	//Superconstructor
 	public Enemy(int inSeed)
-	{
+	{		
 		switch(inSeed)
 		{
 			case 0:
@@ -67,8 +70,22 @@ public abstract class Enemy
 		}	
 	}
 	
-	public abstract void takeTurn();
+	//methods
+	public abstract void takeTurn(); //holds enemy combat behavior
 	
-	public abstract void takeDamage(int damage);
+	public abstract void takeDamage(int damage); //allows the enemy to take damage. Abstract in case an enemy has unique HP behavior.
+	
+	public abstract String scanForInfo();
+	
+	//getters and setters
+	public void setTarget(PlayerCharacter hero)
+	{
+		target = hero;
+	}
+	
+	public void setCombatManager(CombatManager inCom)
+	{
+		combat = inCom;
+	}
 
 }
