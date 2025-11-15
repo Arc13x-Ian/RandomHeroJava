@@ -60,9 +60,26 @@ public class playerButtonListener implements ActionListener
 				
 			case 2: //skills case
 				//TODO: skills needs to populate a menu of skills and display it. Maybe a new widget/window.
+				ability[] knownAbilities = player.listSkills();
+				
+				//TODO: here we will be printing out the skills in console. What we NEED to do is create either a new widget, a new window, or a JOptionPane
+				//that lists the skills with buttons, then calls player.activateSkill(x) where x is the skill to activate.
+				if (knownAbilities.length > 0)
+				{
+					for (int i = 0; i < knownAbilities.length; i++)
+					{
+						System.out.println(knownAbilities[i].getName());
+					}					
+				}
+				else
+				{
+					System.out.println("No Known Skills!");
+				}
+				break;
 				
 			case 3: //info case
 				player.scan();
+				break;
 		}
 	}
 

@@ -30,6 +30,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /**
@@ -221,6 +222,16 @@ public class GameScreenGUI extends JFrame
 	{
 		playerStatsArray[1].setText("HP: " + player.getHealth() + " / 50");
 		playerStatsArray[2].setText("MP: " + player.getMana() + " / 25");
+	}
+	
+	public void refreshCombatScreen()
+	{
+		
+	}
+	
+	public int upgradeChecker(Object[] options)
+	{
+		return JOptionPane.showOptionDialog(null, "Level Up! Choose an Upgrade:", "RandomHero", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, null);
 	}
 
 }

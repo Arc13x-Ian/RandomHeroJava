@@ -36,8 +36,9 @@ public class ability
 	private int seed;
 	
 	
+	
 	//constructor
-	public void ability(int inSeed)
+	public ability(int inSeed)
 	{
 		switch(inSeed)
 		{
@@ -47,6 +48,8 @@ public class ability
 				mpCost = 4;
 				element = 1;
 				seed = inSeed;
+				isPassive = false;
+				break;
 				
 			case 1: //regen
 				skillName = "Regen";
@@ -54,6 +57,8 @@ public class ability
 				mpCost = 8;
 				element = 0;
 				seed = inSeed;
+				isPassive = false;
+				break;
 				
 			case 2: //double strike
 				skillName = "Double Strike";
@@ -61,15 +66,39 @@ public class ability
 				mpCost = 2;
 				element = 0;
 				seed = inSeed;
+				isPassive = false;
+				break;
 				
 		}
 	}
 	
 	//methods
 	
+	public void activate()
+	{
+		
+	}
+	
 	public boolean getPassive()
 	{
 		return isPassive;
+	}
+	
+	public String getName()
+	{
+		return skillName;
+	}
+	
+	public String toString()
+	{
+		if (this.isPassive)
+		{
+			return "Passive Bonus: " + skillName;
+		}
+		else
+		{
+			return "Skill: " + skillName;
+		}
 	}
 
 }

@@ -42,7 +42,6 @@ public class Goblin extends Enemy
 	{
 		target.takeDamage(4);
 		combat.enemyActionTaken();
-
 	}
 
 	@Override

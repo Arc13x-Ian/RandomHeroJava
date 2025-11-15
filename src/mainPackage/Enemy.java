@@ -28,14 +28,14 @@ package mainPackage;
 public abstract class Enemy
 {
 	//fields
-	private String name;
-	private int weakness; //elemental weaknesses. 0 = none, 1 = fire, 2 = ice,
-	public int health;
-	private int difficultyVal; //maybe? If we're not doing sequential floors and we're doing random enemies, we'll want a diffValue to randomize
-	private int enemySeed; //juuust in case, we can define enemies by their seed and use a lot of switch cases
+	protected String name;
+	protected int weakness; //elemental weaknesses. 0 = none, 1 = fire, 2 = ice,
+	protected int health;
+	protected int difficultyVal; //maybe? If we're not doing sequential floors and we're doing random enemies, we'll want a diffValue to randomize
+	protected int enemySeed; //juuust in case, we can define enemies by their seed and use a lot of switch cases
 	
-	public PlayerCharacter target; //even though a combat managing class will exist, enemies need to be able to call PC commands.
-	public CombatManager combat;
+	protected PlayerCharacter target; //even though a combat managing class will exist, enemies need to be able to call PC commands.
+	protected CombatManager combat;
 	
 	//enemy key: 0 = goblin, 1 = ice sprite, 99 = demon
 	

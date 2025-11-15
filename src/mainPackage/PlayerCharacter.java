@@ -45,6 +45,7 @@ public class PlayerCharacter
 		manaPoints = 10;
 		maxHP = 50;
 		maxMP = 25;
+		abilityList = new ArrayList<>();
 	}
 	
 	//methods
@@ -98,6 +99,11 @@ public class PlayerCharacter
 		
 		//now skillList[] should be only the abilities that aren't passives.
 		return skillList;
+	}
+	
+	public void activateSkill(int selectedSkill)
+	{
+		abilityList.get(selectedSkill).activate();
 	}
 	
 	public void takeDamage(int dmg)

@@ -39,23 +39,47 @@ public class CombatManager
 	private boolean enemyTurn;
 	private boolean combatActive;
 	private int winner; //0 for player winner, 1 for non player winner
+	private int levelCounter = 0; //this goes up whenever the player wins combat, and is used by setupCombat.
 	
 	private GameScreenGUI gameWindow;
 	
 	//Constructor
 	
 	//TODO: remove the enemy parameter
-	public CombatManager(PlayerCharacter PC, Enemy testGob)
+	public CombatManager(PlayerCharacter PC)
 	{
 		player = PC;
 		player.setCombatManager(this);
 		
 		//TODO: don't have this- this is just to test combat with a single goblin.
 		//we'll want a "setup combat" method that populates a new level when combat ends
-		combatEnemy = testGob;
 	}
 	
 	//Methods
+	
+	public void setupCombat()
+	{
+		//first, we check the level counter
+		switch (levelCounter) 
+		{
+			case 0:
+				System.out.println("Goblin Encountered!");
+				combatEnemy = new Goblin(0);
+				break;
+				
+			case 1:
+				System.out.println("Ice Sprite Encountered!");
+				combatEnemy = new IceSprite(1);
+				break;
+		}
+		
+		
+		//then, we assign combatEnemy to be a new Enemy based on the level counter
+		
+		//then, we set the combatEnemy's target to be the player, and their combat manager to be here.
+		beginCombat();
+	}
+	
 	
 	public void beginCombat()
 	{
@@ -66,7 +90,7 @@ public class CombatManager
 		
 		//now, "turn on" combat
 		System.out.println("Combat Begins");
-//		combatActive = true;
+		combatActive = true;
 //		enemyTurn = false;
 	}
 	
@@ -84,10 +108,35 @@ public class CombatManager
 	{
 		combatActive = false;
 		winner = victor;
+		levelCounter++;
 		//Debug message to make sure we're getting out of combat
 		System.out.println("Combat is over!");
 
 		//TODO: run the upgrade picker, then setup a new combat after this one.
+		upgradeTime();
+		setupCombat();
+	}
+	
+	public void upgradeTime()
+	{
+		String[] upgradeOptions;
+		int selectedUpgrade;
+		//first, we pick a random ability seed number
+		//then, we check the player's ability skills arrayList and see if any abilities with that code exist
+		//if there are, we roll again
+		//if there aren't, we add a new ability skill to the "upgrades" arrayList
+		//then, create an array of strings containing the names of the skills and pass it to the GameScreenGUI's upgradeChecker() method
+		//that one will return an int pertaining to which option the player picked.
+		//whichever one the player chooses, call the playerCharacter's learnSkill() to learn that skill
+		
+		//TODO: for now we're going to make a preset list of buttons, and then add that skill to the player.
+		String[] demoUpgradeOptions = {"Fire I", "Regen", "Double Strike"};
+		
+		selectedUpgrade = gameWindow.upgradeChecker(demoUpgradeOptions);
+		ability upgradeAbility = new ability(selectedUpgrade);
+		player.learnSkill(upgradeAbility);
+		
+		//then, call the next setupCombat() method.
 	}
 	
 	public void scan()

@@ -17,17 +17,18 @@ package mainPackage;
  * Purpose: The reponsibility of GameMain is Generate GUI, Keep watch for the game ending, and "manage" the game.
  *
  */
+//public enum Elements {NONE, FIRE, ICE, ELEC, LGHT, DARK}
+
 public class GameMain
 {
-
 	
 	public static void main(String[] args)
 	{
 		PlayerCharacter player = new PlayerCharacter("TestHero");
-		Enemy testGob = new Goblin(1); //TESTING LINE, DELETE IN FUTURE
-		CombatManager combatManager = new CombatManager(player, testGob);
+//		Enemy testGob = new Goblin(0); //TESTING LINE, DELETE IN FUTURE
+		CombatManager combatManager = new CombatManager(player);
 		GameScreenGUI game = new GameScreenGUI(player, combatManager);
-		combatManager.beginCombat();
+		combatManager.setupCombat();
 	}
 
 }
