@@ -41,7 +41,7 @@ public class Goblin extends Enemy
 	public void takeTurn()
 	{
 		target.takeDamage(4);
-		combat.enemyActionTaken();
+//		combat.enemyActionTaken();
 	}
 
 	@Override
@@ -59,9 +59,17 @@ public class Goblin extends Enemy
 	}
 
 	@Override
+	public void takeElementalDamage(int damage, int elementType)
+	{
+		//goblins have no elemental weakness or resistance, so we just pass the damage through!
+		takeDamage(damage);
+	}
+	
+	@Override
 	public String scanForInfo()
 	{
 		return "Goblin: a small creature that lives in dungeons. Doesn't do much other than mindlessly attack.";
 	}
+
 
 }

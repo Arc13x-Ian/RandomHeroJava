@@ -54,6 +54,7 @@ public class GameScreenGUI extends JFrame
 	private JLabel battleView; // I may need to use this instead of a panel?
 	private JPanel upgradeScreen;
 	private JPanel startScreen;
+	private JPanel skillsMenu;
 	
 	private JLabel[] playerStatsArray;
 	
@@ -116,10 +117,10 @@ public class GameScreenGUI extends JFrame
 		actionMenu.setLayout(new GridLayout(2, 2));
 		// TODO: make "actionButtons" class so you can seed them with an int ID
 		// and then use a singular actionlistener to do their things
-		actionMenu.add(new playerButton(0, player, combat));
-		actionMenu.add(new playerButton(1, player, combat));
-		actionMenu.add(new playerButton(2, player, combat));
-		actionMenu.add(new playerButton(3, player, combat));
+		actionMenu.add(new playerButton(0, player, combat, this));
+		actionMenu.add(new playerButton(1, player, combat, this));
+		actionMenu.add(new playerButton(2, player, combat, this));
+		actionMenu.add(new playerButton(3, player, combat,this));
 	}
 
 	public void setupCombatLog()
@@ -222,6 +223,7 @@ public class GameScreenGUI extends JFrame
 	{
 		playerStatsArray[1].setText("HP: " + player.getHealth() + " / 50");
 		playerStatsArray[2].setText("MP: " + player.getMana() + " / 25");
+		this.add(actionMenu, BorderLayout.SOUTH);
 	}
 	
 	public void refreshCombatScreen()
@@ -232,6 +234,29 @@ public class GameScreenGUI extends JFrame
 	public int upgradeChecker(Object[] options)
 	{
 		return JOptionPane.showOptionDialog(null, "Level Up! Choose an Upgrade:", "RandomHero", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, null);
+	}
+	
+	public void generateSkillMenu(ability[] skills)
+	{
+		//so, the goal is to create a bevy of buttons by:
+		//reading the ability array, and for each button, attaching the ability in the array
+		//then, those buttons are placed on a little menu and presented to the player
+		//each button should have a listener that is able to call the attached ability's activate() method on the enemy in combat.
+		
+		String[] skillNames = new String[skills.length];
+		
+		for (int i = 0; i < skills.length; i++)
+		{
+			skillNames[i] = skills[i].getName();
+		}
+		
+		//create an option dialog that has the player pick a skill from their known skills
+		int selection = JOptionPane.showOptionDialog(null, "Skills:", "RandomHero", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, skillNames, null);
+		//then, we activate that skill against the known enemy
+		skills[selection].activate(combat.getEnemy());
+		
+		//finally, since activating the skill should be the player's turn, we can call on the combat manager to trigger the enemy's turn from here.
+		combat.enemyTurn();
 	}
 
 }

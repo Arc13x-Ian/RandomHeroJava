@@ -32,7 +32,7 @@ public class playerButton extends JButton
 	//fields
 	
 	//constructor
-	public playerButton(int seed, PlayerCharacter player, CombatManager combat)
+	public playerButton(int seed, PlayerCharacter player, CombatManager combat, GameScreenGUI screen)
 	{		
 		switch (seed)
 		{
@@ -53,6 +53,6 @@ public class playerButton extends JButton
 				break;
 		}
 		
-		this.addActionListener(new playerButtonListener(seed, player, combat));
+		this.addActionListener(new playerButtonListener(seed, player, combat, screen));
 	}
 }

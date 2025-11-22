@@ -133,7 +133,16 @@ public class CombatManager
 		String[] demoUpgradeOptions = {"Fire I", "Regen", "Double Strike"};
 		
 		selectedUpgrade = gameWindow.upgradeChecker(demoUpgradeOptions);
-		ability upgradeAbility = new ability(selectedUpgrade);
+		//selected upgrade is an int that now stores the button the player checked on the menu.
+		//TODO: we need to, initially, make an array of the 3 abilities we're passing in and then just have the player learn from that array using selectedUpgrade
+		
+		ability upgradeAbility = new FireSpell(0); //DEBUG STUFF: THIS IS JUST A TEST FIRE SPELL
+		
+//		switch (selectedUpgrade)
+//		{
+//			case 0:
+//				
+//		}
 		player.learnSkill(upgradeAbility);
 		
 		//then, call the next setupCombat() method.
@@ -144,15 +153,15 @@ public class CombatManager
 		System.out.println(combatEnemy.scanForInfo());
 	}
 	
-	public void playerActionTaken()
-	{
-		enemyTurn = true;
-	}
-	
-	public void enemyActionTaken()
-	{
-		enemyTurn = false;
-	}
+//	public void playerActionTaken()
+//	{
+//		enemyTurn = true;
+//	}
+//	
+//	public void enemyActionTaken()
+//	{
+//		enemyTurn = false;
+//	}
 	
 
 	//getters and setters

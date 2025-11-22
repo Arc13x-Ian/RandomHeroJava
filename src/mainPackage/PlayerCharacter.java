@@ -103,7 +103,7 @@ public class PlayerCharacter
 	
 	public void activateSkill(int selectedSkill)
 	{
-		abilityList.get(selectedSkill).activate();
+		abilityList.get(selectedSkill).activate(combat.getEnemy());
 	}
 	
 	public void takeDamage(int dmg)

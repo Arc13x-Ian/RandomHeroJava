@@ -75,9 +75,29 @@ public class IceSprite extends Enemy
 	}
 
 	@Override
+	public void takeElementalDamage(int damage, int elementType)
+	{
+		//Ice Sprite is weak to fire (type 1) and strong against ice (type 2)
+		
+		if (elementType == 1)
+		{
+			System.out.println("Ice Sprite is weak to fire!");
+			int dmg = damage + (damage / 2);
+			takeDamage(dmg);
+		}
+		
+		if (elementType == 2)
+		{
+			System.out.println("The Ice Sprite absorbs the ice!");
+			takeDamage(damage / 2);
+		}
+	}
+	
+	@Override
 	public String scanForInfo()
 	{
 		return "Ice Sprite: A living mass of ice. At low health, raises its defenses. It may have a weakness...";
 	}
+
 
 }

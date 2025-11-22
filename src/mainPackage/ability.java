@@ -28,12 +28,12 @@ package mainPackage;
 public class ability
 {
 	//fields
-	private String skillName;
-	private int effectVal;
-	private int mpCost;
-	private int element; //0 = non elemental, 1 = fire, 2 = ice
-	private boolean isPassive;
-	private int seed;
+	protected String skillName;
+	protected int effectVal;
+	protected int mpCost;
+	protected int element; //0 = non elemental, 1 = fire, 2 = ice
+	protected boolean isPassive;
+	protected int seed;
 	
 	
 	
@@ -74,9 +74,9 @@ public class ability
 	
 	//methods
 	
-	public void activate()
+	public void activate(Enemy target)
 	{
-		
+		//OVERRIDE THIS
 	}
 	
 	public boolean getPassive()

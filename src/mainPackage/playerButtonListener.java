@@ -33,16 +33,18 @@ public class playerButtonListener implements ActionListener
 	private int seed;
 	private PlayerCharacter player;
 	private CombatManager combat;
+	private GameScreenGUI screen;
 
 	/**
 	 * Purpose: 
 	 * @param inSeed the tracker so it knows what it does when the button is pressed.
 	 */
-	public playerButtonListener(int inSeed, PlayerCharacter inPlayer, CombatManager inCombat)
+	public playerButtonListener(int inSeed, PlayerCharacter inPlayer, CombatManager inCombat, GameScreenGUI inScreen)
 	{
 		seed = inSeed;
 		player = inPlayer;
 		combat = inCombat;
+		screen = inScreen;
 	}
 
 	@Override
@@ -69,7 +71,8 @@ public class playerButtonListener implements ActionListener
 					for (int i = 0; i < knownAbilities.length; i++)
 					{
 						System.out.println(knownAbilities[i].getName());
-					}					
+					}		
+					screen.generateSkillMenu(knownAbilities);
 				}
 				else
 				{

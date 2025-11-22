@@ -75,6 +75,8 @@ public abstract class Enemy
 	
 	public abstract void takeDamage(int damage); //allows the enemy to take damage. Abstract in case an enemy has unique HP behavior.
 	
+	public abstract void takeElementalDamage(int damage, int elementType); //check for an elemental weakness/resistance, change the damage number accordingly, pass to takeDamage.
+	
 	public abstract String scanForInfo();
 	
 	//getters and setters
