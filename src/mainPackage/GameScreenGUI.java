@@ -253,10 +253,22 @@ public class GameScreenGUI extends JFrame
 		//create an option dialog that has the player pick a skill from their known skills
 		int selection = JOptionPane.showOptionDialog(null, "Skills:", "RandomHero", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, skillNames, null);
 		//then, we activate that skill against the known enemy
-		skills[selection].activate(combat.getEnemy());
+		combat.useSkill(skills, selection);
+	}
+	
+	public void updateCombatLog(String newMessage)
+	{
+		//first, we shuffle every log in the combat log upwards by 1.
+		for (int i = 0; i < combatLogArray.length - 1; i++)
+		{
+			//combat log 0 has its text set to the text from combat log 1
+			//then combat log 1 has its text set to the text from combat log 2
+			//and so on
+			combatLogArray[i].setText(combatLogArray[i+1].getText());
+		}
+		//then we set the combat log array's final line to be our new thing.
+		combatLogArray[9].setText(newMessage);
 		
-		//finally, since activating the skill should be the player's turn, we can call on the combat manager to trigger the enemy's turn from here.
-		combat.enemyTurn();
 	}
 
 }

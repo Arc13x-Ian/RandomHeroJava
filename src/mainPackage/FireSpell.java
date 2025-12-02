@@ -44,7 +44,7 @@ public class FireSpell extends ability
 	public void activate(Enemy target)
 	{
 		System.out.println("Casting Fire 1");
-		target.takeElementalDamage(element, effectVal);
+		target.takeElementalDamage(effectVal, element);
 	}
 
 }

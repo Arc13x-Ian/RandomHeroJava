@@ -49,11 +49,15 @@ public class Goblin extends Enemy
 	{
 		health -= damage;
 		//debug message
-				System.out.println("Goblin takes " + damage + " dmg!");
+				combatMessage = ("Goblin takes " + damage + " dmg!");
+				System.out.println(combatMessage);
+				combat.combatLogMessage(combatMessage);
 		
 		if (health <= 0)
 		{
-			System.out.println("Goblin is slain!");
+			combatMessage = ("Goblin is slain!");
+			System.out.println(combatMessage);
+			combat.combatLogMessage(combatMessage);
 			combat.endCombat(0);
 		}
 	}
@@ -66,9 +70,14 @@ public class Goblin extends Enemy
 	}
 	
 	@Override
-	public String scanForInfo()
+	public String[] scanForInfo()
 	{
-		return "Goblin: a small creature that lives in dungeons. Doesn't do much other than mindlessly attack.";
+		String messages[] = new String[3];
+		messages[0] = "Goblin: a small creature,";
+		messages[1] = "it lives deep in dungeons.";
+		messages[2] = "Mindlessly attacks."; 
+		
+		return messages;
 	}
 
 

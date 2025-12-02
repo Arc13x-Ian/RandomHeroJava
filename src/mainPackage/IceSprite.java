@@ -57,11 +57,15 @@ public class IceSprite extends Enemy
 		if(!hardened)
 		{
 			health -= damage;
-			System.out.println("Ice Sprite takes " + damage + " dmg!");
+			combatMessage = ("Ice Sprite takes " + damage + " dmg!");
+			System.out.println(combatMessage);
+			combat.combatLogMessage(combatMessage);
 			
 			if (health <= 10)
 			{
-				System.out.println("Ice Sprite hardens its body, becoming sturdier!");
+				combatMessage = ("Ice Sprite hardens its body, becoming sturdier!");
+				System.out.println(combatMessage);
+				combat.combatLogMessage(combatMessage);
 			}
 		}
 		else
@@ -70,7 +74,9 @@ public class IceSprite extends Enemy
 			
 			health -= reduceDamage;
 			
-			System.out.println("Ice Sprite takes a reduced " + reduceDamage + " dmg!");
+			combatMessage = ("Ice Sprite takes a reduced " + reduceDamage + " dmg!");
+			System.out.println(combatMessage);
+			combat.combatLogMessage(combatMessage);
 		}
 	}
 
@@ -78,25 +84,39 @@ public class IceSprite extends Enemy
 	public void takeElementalDamage(int damage, int elementType)
 	{
 		//Ice Sprite is weak to fire (type 1) and strong against ice (type 2)
-		
+//		System.out.println("Taking elemental damage");
 		if (elementType == 1)
 		{
-			System.out.println("Ice Sprite is weak to fire!");
+			combatMessage = ("Ice Sprite is weak to fire!");
+			System.out.println(combatMessage);
+			combat.combatLogMessage(combatMessage);
 			int dmg = damage + (damage / 2);
 			takeDamage(dmg);
 		}
-		
-		if (elementType == 2)
+		else if (elementType == 2)
 		{
-			System.out.println("The Ice Sprite absorbs the ice!");
+			combatMessage = ("The Ice Sprite absorbs the ice!");
+			System.out.println(combatMessage);
+			combat.combatLogMessage(combatMessage);
 			takeDamage(damage / 2);
 		}
+		else
+		{
+			//if we hit here just send normal damage
+			takeDamage(damage);
+		}
+		
 	}
 	
 	@Override
-	public String scanForInfo()
+	public String[] scanForInfo()
 	{
-		return "Ice Sprite: A living mass of ice. At low health, raises its defenses. It may have a weakness...";
+		String messages[] = new String[3];
+		messages[0] = "IceSprite: an ice spirit.";
+		messages[1] = "At low health, raises DEF.";
+		messages[2] = "It may have a weakness..."; 
+		
+		return messages;
 	}
 
 

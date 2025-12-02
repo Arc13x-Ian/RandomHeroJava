@@ -33,6 +33,7 @@ public abstract class Enemy
 	protected int health;
 	protected int difficultyVal; //maybe? If we're not doing sequential floors and we're doing random enemies, we'll want a diffValue to randomize
 	protected int enemySeed; //juuust in case, we can define enemies by their seed and use a lot of switch cases
+	protected String combatMessage;
 	
 	protected PlayerCharacter target; //even though a combat managing class will exist, enemies need to be able to call PC commands.
 	protected CombatManager combat;
@@ -77,7 +78,7 @@ public abstract class Enemy
 	
 	public abstract void takeElementalDamage(int damage, int elementType); //check for an elemental weakness/resistance, change the damage number accordingly, pass to takeDamage.
 	
-	public abstract String scanForInfo();
+	public abstract String[] scanForInfo();
 	
 	//getters and setters
 	public void setTarget(PlayerCharacter hero)

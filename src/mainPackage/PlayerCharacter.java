@@ -34,6 +34,7 @@ public class PlayerCharacter
 	private int manaPoints;
 	private int maxMP;
 	private ArrayList<ability> abilityList;
+	private String combatMessage;
 	
 	private CombatManager combat;
 	
@@ -67,7 +68,9 @@ public class PlayerCharacter
 			manaPoints = maxMP;
 		}
 		
-		System.out.println("Focusing...");
+		combatMessage = "Focusing...";
+		System.out.println(combatMessage);
+		combat.combatLogMessage(combatMessage);
 		combat.enemyTurn();
 	}
 	
@@ -110,14 +113,18 @@ public class PlayerCharacter
 	{
 		healthPoints -= dmg;
 		//debug message
-		System.out.println(name + " takes " + dmg + " dmg!");
+		combatMessage = (name + " takes " + dmg + " dmg!");
+		System.out.println(combatMessage);
+		combat.combatLogMessage(combatMessage);
 		
 		if (healthPoints <= 0)
 		{
 			//TODO: Lose the game if HP is 0 or less.
 			
 			//debug message
-			System.out.println(name + "has died!");
+			combatMessage = (name + "has died!");	
+			System.out.println(combatMessage);
+			combat.combatLogMessage(combatMessage);
 			combat.endCombat(1);
 		}
 	}
