@@ -15,36 +15,35 @@
 *
 * <<Add more references here>>
 *
-* Version: 2025-11-20
+* Version: 2025-12-04
 */
 package mainPackage;
 
 /**
- * Purpose: The reponsibility of FireSpell is ...
+ * Purpose: The reponsibility of AtkBreakSkill is ...
  *
- * FireSpell is-a ...
- * FireSpell is ...
+ * AtkBreakSkill is-a ...
+ * AtkBreakSkill is ...
  */
-public class FireSpell extends ability
+public class AtkBreakSkill extends ability
 {
 
 	/**
 	 * Purpose: 
 	 * @param inSeed
+	 * @param hero
 	 */
-	public FireSpell(int inSeed, PlayerCharacter player)
+	public AtkBreakSkill(int inSeed, PlayerCharacter hero)
 	{
-		super(inSeed, player);
+		super(inSeed, hero);
 		// TODO Auto-generated constructor stub
 	}
 	
-	//methods
-	
-	@Override
 	public void activate(Enemy target)
 	{
-		System.out.println("Casting Fire 1");
-		target.takeElementalDamage(effectVal, element);
+		System.out.println("Attacking The Arm!");
+		target.takeDamage(effectVal);
+		target.debuffAttack();
 	}
 
 }

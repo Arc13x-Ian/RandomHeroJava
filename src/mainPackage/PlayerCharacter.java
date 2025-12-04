@@ -129,6 +129,16 @@ public class PlayerCharacter
 		}
 	}
 	
+	public void heal(int healAmt)
+	{
+		healthPoints += healAmt;
+		
+		combatMessage = (name + " heals for " + healAmt + "!");
+		System.out.println(combatMessage);
+		combat.combatLogMessage(combatMessage);
+		
+	}
+	
 	//getters and setters
 	public String getName()
 	{

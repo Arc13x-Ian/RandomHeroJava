@@ -38,6 +38,10 @@ public abstract class Enemy
 	protected PlayerCharacter target; //even though a combat managing class will exist, enemies need to be able to call PC commands.
 	protected CombatManager combat;
 	
+	//booleans for tracking one time things
+	protected boolean atkDown;
+	protected boolean defDown;
+	
 	//enemy key: 0 = goblin, 1 = ice sprite, 99 = demon
 	
 	//Superconstructor
@@ -69,6 +73,10 @@ public abstract class Enemy
 				enemySeed = 1;
 				break;
 		}	
+		
+		//set the booleans to false
+		atkDown = false;
+		defDown = false;
 	}
 	
 	//methods
@@ -79,6 +87,24 @@ public abstract class Enemy
 	public abstract void takeElementalDamage(int damage, int elementType); //check for an elemental weakness/resistance, change the damage number accordingly, pass to takeDamage.
 	
 	public abstract String[] scanForInfo();
+	
+	public void debuffAttack()
+	{
+		atkDown = true;
+		
+		combatMessage = (name + " is weakened for 1 round!");
+		System.out.println(combatMessage);
+		combat.combatLogMessage(combatMessage);
+	}
+	
+	public void debuffDefense()
+	{
+		defDown = true;
+		
+		combatMessage = (name + " is vulnerable for 1 round!");
+		System.out.println(combatMessage);
+		combat.combatLogMessage(combatMessage);
+	}
 	
 	//getters and setters
 	public void setTarget(PlayerCharacter hero)

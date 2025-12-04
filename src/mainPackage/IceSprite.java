@@ -45,6 +45,10 @@ public class IceSprite extends Enemy
 		{
 			hardened = true;
 		}
+		else if (atkDown)
+		{
+			target.takeDamage(3);
+		}
 		else
 		{
 			target.takeDamage(5);

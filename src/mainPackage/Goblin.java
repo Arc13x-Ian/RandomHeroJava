@@ -40,7 +40,14 @@ public class Goblin extends Enemy
 	@Override
 	public void takeTurn()
 	{
-		target.takeDamage(4);
+		if(atkDown)
+		{
+			target.takeDamage(2);
+		}
+		else
+		{
+			target.takeDamage(4);			
+		}
 //		combat.enemyActionTaken();
 	}
 

@@ -147,7 +147,7 @@ public class CombatManager
 
 		// TODO: for now we're going to make a preset list of buttons, and then
 		// add that skill to the player.
-		String[] demoUpgradeOptions = { "Fire I", "Regen", "Double Strike" };
+		String[] demoUpgradeOptions = { "Fire I", "Cure", "Atk Break" };
 
 		selectedUpgrade = gameWindow.upgradeChecker(demoUpgradeOptions);
 		// selected upgrade is an int that now stores the button the player
@@ -156,8 +156,23 @@ public class CombatManager
 		// passing in and then just have the player learn from that array using
 		// selectedUpgrade
 
-		ability upgradeAbility = new FireSpell(0); // DEBUG STUFF: THIS IS JUST
-													// A TEST FIRE SPELL
+		//DEBUG STUFF THIS IS DEBUG STUFF
+		ability upgradeAbility = new FireSpell(0, player);
+		switch(selectedUpgrade)
+		{
+			case 0: //first button
+				upgradeAbility = new FireSpell(0, player); // DEBUG STUFF: THIS IS JUST
+				// A TEST FIRE SPELL
+				break;
+				
+			case 1: //second button
+				upgradeAbility = new CureSpell(1, player);
+				break;
+				
+			case 2: //third button
+				upgradeAbility = new AtkBreakSkill(3, player);
+				break;
+		}
 
 		// switch (selectedUpgrade)
 		// {
@@ -204,6 +219,41 @@ public class CombatManager
 		// anything from the player or enemy that currently prints a debug
 		// message should now boot that message into this method.
 		gameWindow.updateCombatLog(combatLog);
+	}
+	
+	public ability createSkill(int input)
+	{
+		//this is just a big long Factory Pattern
+		//a switch case that can create any skill.
+		//when the upgradeTime method knows which skill the player wants, we'll go down here
+		//create that skill, and return it back upwards for the upgrade time method to give.
+		ability createdAbility;
+		
+		//check the ability class to ensure your switch case index matches this one.
+		switch(input)
+		{
+			case 0:
+				createdAbility = new FireSpell(0, player);
+				break;
+				
+			case 1: 
+				createdAbility = new CureSpell(1, player);
+				break;
+				
+			case 2: 
+				createdAbility = new DualStrikeSkill(2, player);
+				break;
+				
+			case 3:
+				createdAbility = new AtkBreakSkill(3, player);
+				break;
+				
+			default: 
+				createdAbility = new FireSpell(0, player);
+				
+		}
+		
+		return createdAbility;
 	}
 
 	// getters and setters

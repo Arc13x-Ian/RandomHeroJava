@@ -34,12 +34,14 @@ public class ability
 	protected int element; //0 = non elemental, 1 = fire, 2 = ice
 	protected boolean isPassive;
 	protected int seed;
+	protected PlayerCharacter player;
 	
 	
 	
 	//constructor
-	public ability(int inSeed)
+	public ability(int inSeed, PlayerCharacter hero)
 	{
+		player = hero;
 		switch(inSeed)
 		{
 			case 0: //fire 1
@@ -52,8 +54,8 @@ public class ability
 				break;
 				
 			case 1: //regen
-				skillName = "Regen";
-				effectVal = 4;
+				skillName = "Cure";
+				effectVal = 8;
 				mpCost = 8;
 				element = 0;
 				seed = inSeed;
@@ -61,7 +63,7 @@ public class ability
 				break;
 				
 			case 2: //double strike
-				skillName = "Double Strike";
+				skillName = "Dual Blow";
 				effectVal = 10;
 				mpCost = 2;
 				element = 0;
@@ -69,6 +71,24 @@ public class ability
 				isPassive = false;
 				break;
 				
+			case 3: //Attack Break
+				skillName = "ATK Break";
+				effectVal = 3;
+				mpCost = 4;
+				element = 0;
+				seed = inSeed;
+				isPassive = false;
+				break;
+
+			case 4: //Defense Break
+				skillName = "DEF Break";
+				effectVal = 3;
+				mpCost = 4;
+				element = 0;
+				seed = inSeed;
+				isPassive = false;
+				break;
+
 		}
 	}
 	
