@@ -214,15 +214,18 @@ public class CombatManager
 			//so that the skill will not get rolled again.
 			case 0:
 				player.learnSkill(upgradeZero);
-				knownSkills[seedZero] = false;
+				knownSkills[seedZero] = true;
+				break;
 				
 			case 1:
 				player.learnSkill(upgradeOne);
-				knownSkills[seedOne] = false;
+				knownSkills[seedOne] = true;
+				break;
 				
 			case 2:
 				player.learnSkill(upgradeTwo);
-				knownSkills[seedTwo] = false;
+				knownSkills[seedTwo] = true;
+				break;
 		}
 		
 
@@ -339,6 +342,7 @@ public class CombatManager
 				
 			case 4:
 				createdAbility = new DefBreakSkill(4, player);
+				break;
 				
 			default: 
 				createdAbility = new FireSpell(0, player);
