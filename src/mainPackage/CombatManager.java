@@ -21,6 +21,8 @@
  */
 package mainPackage;
 
+import java.util.Random;
+
 /**
  * Purpose: The reponsibility of CombatManager is to know the player, and the
  * enemies the player is facing, and to be able to "run" combat.
@@ -47,20 +49,26 @@ public class CombatManager
 	private int levelCounter = 0; // this goes up whenever the player wins
 									// combat, and is used by setupCombat.
 
+	private boolean[] knownSkills; //TRUE skills should not be picked for learning.
+	private Random random;
 	private GameScreenGUI gameWindow;
 
 	// Constructor
 
-	// TODO: remove the enemy parameter
 	public CombatManager(PlayerCharacter PC)
 	{
 		player = PC;
 		player.setCombatManager(this);
-
-		// TODO: don't have this- this is just to test combat with a single
-		// goblin.
-		// we'll want a "setup combat" method that populates a new level when
-		// combat ends
+		
+		//create the random generator
+		random = new Random();
+		//set all knownSkills to false
+		//the array length = the amount of skills in the game
+		knownSkills = new boolean[5];
+		for (int i = 0; i < knownSkills.length; i++)
+		{
+			knownSkills[i] = false;
+		}
 	}
 
 	// Methods
@@ -130,58 +138,139 @@ public class CombatManager
 
 	public void upgradeTime()
 	{
-		String[] upgradeOptions;
-		int selectedUpgrade;
+		String[] upgradeOptions; //array of strings we pass to the GUI for the buttons
+		String optionZero = null; //first string
+		String optionOne = null; //second string
+		String optionTwo = null; //third string
+		
+		int seedZero = -99; //used to create the proper skill and disable boolean value
+		int seedOne = -99; //used to create the proper skill and disable boolean value
+		int seedTwo = -99; //used to create the proper skill and disable boolean value
+		int testSeed; //what random will be spitting numbers into
+		
+		ability upgradeZero = null; //the actual ability to pass to the player if chosen
+		ability upgradeOne = null; //the actual ability to pass to the player if chosen
+		ability upgradeTwo = null; //the actual ability to pass to the player if chosen
+		
+		int selectedUpgrade; //the GUI button press will return a value here, use to create proper skill
+		
+		boolean generatingUpgrades = true;
 		// first, we pick a random ability seed number
 		// then, we check the player's ability skills arrayList and see if any
 		// abilities with that code exist
 		// if there are, we roll again
-		// if there aren't, we add a new ability skill to the "upgrades"
-		// arrayList
-		// then, create an array of strings containing the names of the skills
+		while (generatingUpgrades)
+		{
+			testSeed = random.nextInt(knownSkills.length); //first, grab a random number.
+			
+			if (knownSkills[testSeed] == false) //if we do NOT know this particular skill
+			{
+				if (seedZero < 0) //there are no negative skill seeds, so this means the slot is not filled
+				{
+					seedZero = testSeed; //our first upgrade option is the randomly selected one
+					upgradeZero = createSkill(seedZero); //we create the skill for our first upgrade option
+					optionZero = upgradeZero.getName(); //and our first "option" for buttons is the name of the skill tied to this seed
+				}
+				else if (seedOne < 0 && testSeed != seedZero) //if we have picked our first skill, we move on to the next one and repeat
+				{
+					seedOne = testSeed;
+					upgradeOne = createSkill(seedOne);
+					optionOne = upgradeOne.getName();
+				}
+				else if (seedTwo < 0 && testSeed != seedZero && testSeed != seedOne)
+				{
+					seedTwo = testSeed;
+					upgradeTwo = createSkill(seedTwo);
+					optionTwo = upgradeTwo.getName();
+					//IF we are filling the third seed, then we have filled all seeds, and are done generating upgrades.
+					generatingUpgrades = false;
+				}
+			}
+			//if we are down here, we've either deposited a skill into one slot, or we've pulled a number the player knows.
+			//either way, loop again if we haven't filled all 3 seeds.
+		}
+		
+		// next, populate the array of options strings containing the names of the chosen upgrades.
+		upgradeOptions = new String[3];
+		upgradeOptions[0] = optionZero; //since we grabbed the names for the skills we made, we just pass them in.
+		upgradeOptions[1] = optionOne;
+		upgradeOptions[2] = optionTwo;
+		
 		// and pass it to the GameScreenGUI's upgradeChecker() method
+		selectedUpgrade = gameWindow.upgradeChecker(upgradeOptions);
 		// that one will return an int pertaining to which option the player
 		// picked.
+		
 		// whichever one the player chooses, call the playerCharacter's
 		// learnSkill() to learn that skill
+		switch(selectedUpgrade)
+		{
+			//on the bright side, everything lines up naturally.
+			//our first option was 0, then our second option 1, then our third 2.
+			//clicking the left button will return 0, the middle 1, and the right 2.
+			//that means if selectedUpgrade is 0, the ability we want to ADD is 0.
+			
+			//on top of that, we will set the bool in the "known skills" array to be true for the linked skill
+			//so that the skill will not get rolled again.
+			case 0:
+				player.learnSkill(upgradeZero);
+				knownSkills[seedZero] = false;
+				
+			case 1:
+				player.learnSkill(upgradeOne);
+				knownSkills[seedOne] = false;
+				
+			case 2:
+				player.learnSkill(upgradeTwo);
+				knownSkills[seedTwo] = false;
+		}
+		
 
 		// TODO: for now we're going to make a preset list of buttons, and then
 		// add that skill to the player.
-		String[] demoUpgradeOptions = { "Fire I", "Cure", "Atk Break" };
+		
+		///// EVERYTHING BELOW HERE IS THE DEBUG TEST VERSION, DO NOT USE /////
+		///// EVERYTHING BELOW HERE IS THE DEBUG TEST VERSION, DO NOT USE /////
+		///// EVERYTHING BELOW HERE IS THE DEBUG TEST VERSION, DO NOT USE /////
+		///// EVERYTHING BELOW HERE IS THE DEBUG TEST VERSION, DO NOT USE /////
+		///// EVERYTHING BELOW HERE IS THE DEBUG TEST VERSION, DO NOT USE /////
 
-		selectedUpgrade = gameWindow.upgradeChecker(demoUpgradeOptions);
-		// selected upgrade is an int that now stores the button the player
-		// checked on the menu.
-		// TODO: we need to, initially, make an array of the 3 abilities we're
-		// passing in and then just have the player learn from that array using
-		// selectedUpgrade
 
-		//DEBUG STUFF THIS IS DEBUG STUFF
-		ability upgradeAbility = new FireSpell(0, player);
-		switch(selectedUpgrade)
-		{
-			case 0: //first button
-				upgradeAbility = new FireSpell(0, player); // DEBUG STUFF: THIS IS JUST
-				// A TEST FIRE SPELL
-				break;
-				
-			case 1: //second button
-				upgradeAbility = new CureSpell(1, player);
-				break;
-				
-			case 2: //third button
-				upgradeAbility = new AtkBreakSkill(3, player);
-				break;
-		}
-
-		// switch (selectedUpgrade)
-		// {
-		// case 0:
-		//
-		// }
-		player.learnSkill(upgradeAbility);
-
-		// then, call the next setupCombat() method.
+//		String[] demoUpgradeOptions = { "Fire I", "Cure", "Atk Break" };
+//
+//		selectedUpgrade = gameWindow.upgradeChecker(demoUpgradeOptions);
+//		// selected upgrade is an int that now stores the button the player
+//		// checked on the menu.
+//		// we need to, initially, make an array of the 3 abilities we're
+//		// passing in and then just have the player learn from that array using
+//		// selectedUpgrade
+//
+//		//DEBUG STUFF THIS IS DEBUG STUFF
+//		ability upgradeAbility = new FireSpell(0, player);
+//		switch(selectedUpgrade)
+//		{
+//			case 0: //first button
+//				upgradeAbility = new FireSpell(0, player); // DEBUG STUFF: THIS IS JUST
+//				// A TEST FIRE SPELL
+//				break;
+//				
+//			case 1: //second button
+//				upgradeAbility = new CureSpell(1, player);
+//				break;
+//				
+//			case 2: //third button
+//				upgradeAbility = new AtkBreakSkill(3, player);
+//				break;
+//		}
+//
+//		// switch (selectedUpgrade)
+//		// {
+//		// case 0:
+//		//
+//		// }
+//		player.learnSkill(upgradeAbility);
+//
+//		// then, call the next setupCombat() method.
 	}
 
 	public void scan()
@@ -247,6 +336,9 @@ public class CombatManager
 			case 3:
 				createdAbility = new AtkBreakSkill(3, player);
 				break;
+				
+			case 4:
+				createdAbility = new DefBreakSkill(4, player);
 				
 			default: 
 				createdAbility = new FireSpell(0, player);
