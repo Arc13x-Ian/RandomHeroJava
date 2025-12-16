@@ -25,7 +25,7 @@ package mainPackage;
  * ability is-a ...
  * ability is ...
  */
-public class ability
+public class Ability
 {
 	//fields
 	protected String skillName;
@@ -39,13 +39,16 @@ public class ability
 	
 	
 	//constructor
-	public ability(int inSeed, PlayerCharacter hero)
+	public Ability(int inSeed, PlayerCharacter hero)
 	{
 		player = hero;
 		switch(inSeed)
 		{
+			//with 9 levels, meaning we hit level up 8 times, we need 10 skills to pick from!
+			
+			//we'll start with 5 actually. For safety. So, 7 skills.
 			case 0: //fire 1
-				skillName = "Fire I";
+				skillName = "Fire bolt";
 				effectVal = 10;
 				mpCost = 4;
 				element = 1;
@@ -55,7 +58,7 @@ public class ability
 				
 			case 1: //regen
 				skillName = "Cure";
-				effectVal = 8;
+				effectVal = 12;
 				mpCost = 8;
 				element = 0;
 				seed = inSeed;
@@ -88,6 +91,60 @@ public class ability
 				seed = inSeed;
 				isPassive = false;
 				break;
+				
+			case 5: //Focusing Strike
+				skillName = "Focusing Strike";
+				effectVal = 3;
+				mpCost = 0;
+				element = 0;
+				seed = inSeed;
+				isPassive = false;
+				break;
+				
+			case 6: //Holy Blade
+				skillName = "Holy Blade";
+				effectVal = 5;
+				mpCost = 5;
+				element = 9;
+				seed = inSeed;
+				isPassive = false;
+				break;
+				
+			case 7: //Frost Lance
+				skillName = "Frost Lance";
+				effectVal = 10;
+				mpCost = 4;
+				element = 2;
+				seed = inSeed;
+				isPassive = false;
+				break;
+				
+//			case 8: 
+//				skillName = "";
+//				effectVal = 0;
+//				mpCost = 0;
+//				element = 0;
+//				seed = inSeed;
+//				isPassive = false;
+//				break;
+//				
+//			case 9: 
+//				skillName = "";
+//				effectVal = 0;
+//				mpCost = 0;
+//				element = 0;
+//				seed = inSeed;
+//				isPassive = false;
+//				break;
+//				
+//			case 10: 
+//				skillName = "";
+//				effectVal = 0;
+//				mpCost = 0;
+//				element = 0;
+//				seed = inSeed;
+//				isPassive = false;
+//				break;
 
 		}
 	}

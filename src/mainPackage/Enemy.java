@@ -49,6 +49,8 @@ public abstract class Enemy
 	{		
 		switch(inSeed)
 		{
+			//we'll have 9 floors, so monster cases 0-8
+			//actually, start with 6 (tutorial + 5), so monster cases 0-5.
 			case 0:
 				name = "Goblin";
 				health = 10;
@@ -65,12 +67,36 @@ public abstract class Enemy
 				enemySeed = 1;
 				break;
 				
-			case 99:
-				name = "Great Demon";
+			case 2:
+				name = "Deep Ooze";
+				health = 40;
+				weakness = 99;
+				difficultyVal = 3;
+				enemySeed = 2;
+				break;
+				
+			case 3:
+				name = "Cursed Armor";
+				health = 5;
+				weakness = 0;
+				difficultyVal = 0;
+				enemySeed = 3;
+				break;
+				
+			case 4:
+				name = "Elemental Nexus";
+				health = 5;
+				weakness = 0;
+				difficultyVal = 0;
+				enemySeed = 4;
+				break;
+				
+			case 5:
+				name = "Demon Lord";
 				health = 99;
 				weakness = 0;
-				difficultyVal = 10;
-				enemySeed = 1;
+				difficultyVal = 9;
+				enemySeed = 5;
 				break;
 		}	
 		
@@ -80,6 +106,12 @@ public abstract class Enemy
 	}
 	
 	//methods
+	
+	//REMINDER: Things Enemies must account for:
+	//1) Having their attack debuffed when taking turn
+	//2) Having their defense debuffed when taking damage
+	
+	
 	public abstract void takeTurn(); //holds enemy combat behavior
 	
 	public abstract void takeDamage(int damage); //allows the enemy to take damage. Abstract in case an enemy has unique HP behavior.

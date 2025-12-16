@@ -15,17 +15,17 @@
 *
 * <<Add more references here>>
 *
-* Version: 2025-12-04
+* Version: 2025-12-13
 */
 package mainPackage;
 
 /**
- * Purpose: The reponsibility of AtkBreakSkill is ...
+ * Purpose: The reponsibility of FrostLanceSkill is ...
  *
- * AtkBreakSkill is-a ...
- * AtkBreakSkill is ...
+ * FrostLanceSkill is-a ...
+ * FrostLanceSkill is ...
  */
-public class AtkBreakSkill extends Ability
+public class FrostLanceSkill extends Ability
 {
 
 	/**
@@ -33,18 +33,17 @@ public class AtkBreakSkill extends Ability
 	 * @param inSeed
 	 * @param hero
 	 */
-	public AtkBreakSkill(int inSeed, PlayerCharacter hero)
+	public FrostLanceSkill(int inSeed, PlayerCharacter hero)
 	{
 		super(inSeed, hero);
 		// TODO Auto-generated constructor stub
 	}
+
 	
 	@Override
 	public void activate(Enemy target)
 	{
-		System.out.println("Attacking The Arm!");
-		target.takeDamage(effectVal);
-		target.debuffAttack();
+		System.out.println("Casting Frost Lance");
+		target.takeElementalDamage(effectVal, element);
 	}
-
 }

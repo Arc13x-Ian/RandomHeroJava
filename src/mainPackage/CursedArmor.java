@@ -15,36 +15,55 @@
 *
 * <<Add more references here>>
 *
-* Version: 2025-12-04
+* Version: 2025-12-14
 */
 package mainPackage;
 
 /**
- * Purpose: The reponsibility of AtkBreakSkill is ...
+ * Purpose: The reponsibility of CursedArmor is ...
  *
- * AtkBreakSkill is-a ...
- * AtkBreakSkill is ...
+ * CursedArmor is-a ...
+ * CursedArmor is ...
  */
-public class AtkBreakSkill extends Ability
+public class CursedArmor extends Enemy
 {
 
 	/**
 	 * Purpose: 
 	 * @param inSeed
-	 * @param hero
 	 */
-	public AtkBreakSkill(int inSeed, PlayerCharacter hero)
+	public CursedArmor(int inSeed)
 	{
-		super(inSeed, hero);
+		super(inSeed);
 		// TODO Auto-generated constructor stub
 	}
-	
+
 	@Override
-	public void activate(Enemy target)
+	public void takeTurn()
 	{
-		System.out.println("Attacking The Arm!");
-		target.takeDamage(effectVal);
-		target.debuffAttack();
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void takeDamage(int damage)
+	{
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void takeElementalDamage(int damage, int elementType)
+	{
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public String[] scanForInfo()
+	{
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

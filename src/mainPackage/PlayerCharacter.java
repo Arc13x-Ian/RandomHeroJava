@@ -33,7 +33,7 @@ public class PlayerCharacter
 	private int maxHP;
 	private int manaPoints;
 	private int maxMP;
-	private ArrayList<ability> abilityList;
+	private ArrayList<Ability> abilityList;
 	private String combatMessage;
 	
 	private CombatManager combat;
@@ -80,14 +80,14 @@ public class PlayerCharacter
 		combat.enemyTurn();
 	}
 	
-	public void learnSkill(ability newSkill)
+	public void learnSkill(Ability newSkill)
 	{
 		abilityList.add(newSkill);
 	}
 	
-	public ability[] listSkills()
+	public Ability[] listSkills()
 	{
-		ability[] skillList = new ability[abilityList.size()];
+		Ability[] skillList = new Ability[abilityList.size()];
 		int listCounter = 0;
 		
 		for (int i = 0; i < abilityList.size(); i++)

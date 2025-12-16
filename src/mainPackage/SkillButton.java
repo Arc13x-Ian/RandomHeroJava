@@ -30,12 +30,12 @@ import javax.swing.JButton;
 public class SkillButton extends JButton
 {
 	//fields
-	private ability attachedSkill;
+	private Ability attachedSkill;
 	private Enemy combatEnemy;
 	private CombatManager combat;
 	//constructors
 	
-	public SkillButton(ability inSkill, CombatManager inCombat)
+	public SkillButton(Ability inSkill, CombatManager inCombat)
 	{
 		attachedSkill = inSkill;
 		combat = inCombat;

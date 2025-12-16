@@ -1,22 +1,24 @@
 /**
-* Lead Author(s):
-* @author ian; student ID
-* @author Full name; student ID
-* <<Add additional lead authors here>>
-*
-* Other Contributors:
-* Full name; student ID or contact information if not in class
-* <<Add additional contributors (mentors, tutors, friends) here, with contact information>>
-*
-* References:
-* Morelli, R., & Walde, R. (2016).
-* Java, Java, Java: Object-Oriented Problem Solving
-* https://open.umn.edu/opentextbooks/textbooks/java-java-java-object-oriented-problem-solving
-*
-* <<Add more references here>>
-*
-* Version: 2025-11-14
-*/
+ * Lead Author(s):
+ * 
+ * @author ian; student ID
+ * @author Full name; student ID
+ *         <<Add additional lead authors here>>
+ *
+ *         Other Contributors:
+ *         Full name; student ID or contact information if not in class
+ *         <<Add additional contributors (mentors, tutors, friends) here, with
+ *         contact information>>
+ *
+ *         References:
+ *         Morelli, R., & Walde, R. (2016).
+ *         Java, Java, Java: Object-Oriented Problem Solving
+ *         https://open.umn.edu/opentextbooks/textbooks/java-java-java-object-oriented-problem-solving
+ *
+ *         <<Add more references here>>
+ *
+ *         Version: 2025-11-14
+ */
 package mainPackage;
 
 /**
@@ -27,10 +29,12 @@ package mainPackage;
  */
 public class IceSprite extends Enemy
 {
+	
 	private boolean hardened = false;
 
 	/**
-	 * Purpose: 
+	 * Purpose:
+	 * 
 	 * @param inSeed
 	 */
 	public IceSprite(int inSeed)
@@ -58,13 +62,21 @@ public class IceSprite extends Enemy
 	@Override
 	public void takeDamage(int damage)
 	{
-		if(!hardened)
+		// first step: check if my health is debuffed, and if it is, double
+		// damage
+		if (defDown)
+		{
+			damage = damage + damage;
+			defDown = false;
+		}
+
+		if (!hardened)
 		{
 			health -= damage;
 			combatMessage = ("Ice Sprite takes " + damage + " dmg!");
 			System.out.println(combatMessage);
 			combat.combatLogMessage(combatMessage);
-			
+
 			if (health <= 10)
 			{
 				combatMessage = ("Ice Sprite hardens its body, becoming sturdier!");
@@ -74,21 +86,30 @@ public class IceSprite extends Enemy
 		}
 		else
 		{
-			int reduceDamage =(int) ((int) damage * 0.75);
-			
+			int reduceDamage = (int) ((int) damage * 0.75);
+
 			health -= reduceDamage;
-			
-			combatMessage = ("Ice Sprite takes a reduced " + reduceDamage + " dmg!");
+
+			combatMessage = ("Ice Sprite takes a reduced " + reduceDamage
+					+ " dmg!");
 			System.out.println(combatMessage);
 			combat.combatLogMessage(combatMessage);
+		}
+		
+		if (health <= 0)
+		{
+			combatMessage = ("Ice Sprite is slain!");
+			System.out.println(combatMessage);
+			combat.combatLogMessage(combatMessage);
+			combat.endCombat(0);
 		}
 	}
 
 	@Override
 	public void takeElementalDamage(int damage, int elementType)
 	{
-		//Ice Sprite is weak to fire (type 1) and strong against ice (type 2)
-//		System.out.println("Taking elemental damage");
+		// Ice Sprite is weak to fire (type 1) and strong against ice (type 2)
+		// System.out.println("Taking elemental damage");
 		if (elementType == 1)
 		{
 			combatMessage = ("Ice Sprite is weak to fire!");
@@ -106,22 +127,21 @@ public class IceSprite extends Enemy
 		}
 		else
 		{
-			//if we hit here just send normal damage
+			// if we hit here just send normal damage
 			takeDamage(damage);
 		}
-		
+
 	}
-	
+
 	@Override
 	public String[] scanForInfo()
 	{
 		String messages[] = new String[3];
 		messages[0] = "IceSprite: an ice spirit.";
-		messages[1] = "At low health, raises DEF.";
-		messages[2] = "It may have a weakness..."; 
-		
+		messages[1] = "Raises its DEF at low health.";
+		messages[2] = "It may have a weakness!";
+
 		return messages;
 	}
-
 
 }

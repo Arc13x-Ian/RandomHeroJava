@@ -25,7 +25,7 @@ package mainPackage;
  * FireSpell is-a ...
  * FireSpell is ...
  */
-public class FireSpell extends ability
+public class FireSpell extends Ability
 {
 
 	/**

@@ -27,7 +27,7 @@ package mainPackage;
  * CureSpell is-a ...
  * CureSpell is ...
  */
-public class CureSpell extends ability
+public class CureSpell extends Ability
 {
 
 	/**

@@ -25,7 +25,7 @@ package mainPackage;
  * DualStrikeSkill is-a ...
  * DualStrikeSkill is ...
  */
-public class DualStrikeSkill extends ability
+public class DualStrikeSkill extends Ability
 {
 
 	/**

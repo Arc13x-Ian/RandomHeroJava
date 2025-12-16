@@ -236,7 +236,7 @@ public class GameScreenGUI extends JFrame
 		return JOptionPane.showOptionDialog(null, "Level Up! Choose an Upgrade:", "RandomHero", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, null);
 	}
 	
-	public void generateSkillMenu(ability[] skills)
+	public void generateSkillMenu(Ability[] skills)
 	{
 		//so, the goal is to create a bevy of buttons by:
 		//reading the ability array, and for each button, attaching the ability in the array

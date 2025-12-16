@@ -15,36 +15,54 @@
 *
 * <<Add more references here>>
 *
-* Version: 2025-12-04
+* Version: 2025-12-14
 */
 package mainPackage;
 
 /**
- * Purpose: The reponsibility of AtkBreakSkill is ...
+ * Purpose: The reponsibility of DemonLord is ...
  *
- * AtkBreakSkill is-a ...
- * AtkBreakSkill is ...
+ * DemonLord is-a ...
+ * DemonLord is ...
  */
-public class AtkBreakSkill extends Ability
+public class DemonLord extends Enemy
 {
 
 	/**
 	 * Purpose: 
 	 * @param inSeed
-	 * @param hero
 	 */
-	public AtkBreakSkill(int inSeed, PlayerCharacter hero)
+	public DemonLord(int inSeed)
 	{
-		super(inSeed, hero);
-		// TODO Auto-generated constructor stub
+		super(inSeed);
 	}
-	
+
 	@Override
-	public void activate(Enemy target)
+	public void takeTurn()
 	{
-		System.out.println("Attacking The Arm!");
-		target.takeDamage(effectVal);
-		target.debuffAttack();
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void takeDamage(int damage)
+	{
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void takeElementalDamage(int damage, int elementType)
+	{
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public String[] scanForInfo()
+	{
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

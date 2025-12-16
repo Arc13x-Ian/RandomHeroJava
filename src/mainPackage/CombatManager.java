@@ -64,7 +64,7 @@ public class CombatManager
 		random = new Random();
 		//set all knownSkills to false
 		//the array length = the amount of skills in the game
-		knownSkills = new boolean[5];
+		knownSkills = new boolean[8];
 		for (int i = 0; i < knownSkills.length; i++)
 		{
 			knownSkills[i] = false;
@@ -88,6 +88,30 @@ public class CombatManager
 				System.out.println("Ice Sprite Encountered!");
 				combatLogMessage("Ice Sprite Encountered!");
 				combatEnemy = new IceSprite(1);
+				break;
+				
+			case 2:
+				System.out.println("Deep Ooze Encountered!");
+				combatLogMessage("Deep Ooze Encountered!");
+				combatEnemy = new DeepOoze(2);
+				break;
+				
+			case 3:
+				System.out.println("Cursed Armor Encountered!");
+				combatLogMessage("Cursed Armor Encountered!");
+//				combatEnemy = new ;
+				break;
+				
+			case 4:
+				System.out.println("Elemental Nexus Encountered!");
+				combatLogMessage("Elemental Nexus Encountered!");
+//				combatEnemy = new ;
+				break;
+				
+			case 5:
+				System.out.println("FINAL BOSS: Demon Lord!");
+				combatLogMessage("FINAL BOSS: Demon Lord!");
+//				combatEnemy = new ;
 				break;
 		}
 
@@ -148,9 +172,9 @@ public class CombatManager
 		int seedTwo = -99; //used to create the proper skill and disable boolean value
 		int testSeed; //what random will be spitting numbers into
 		
-		ability upgradeZero = null; //the actual ability to pass to the player if chosen
-		ability upgradeOne = null; //the actual ability to pass to the player if chosen
-		ability upgradeTwo = null; //the actual ability to pass to the player if chosen
+		Ability upgradeZero = null; //the actual ability to pass to the player if chosen
+		Ability upgradeOne = null; //the actual ability to pass to the player if chosen
+		Ability upgradeTwo = null; //the actual ability to pass to the player if chosen
 		
 		int selectedUpgrade; //the GUI button press will return a value here, use to create proper skill
 		
@@ -296,7 +320,7 @@ public class CombatManager
 	// enemyTurn = false;
 	// }
 
-	public void useSkill(ability[] skills, int selection)
+	public void useSkill(Ability[] skills, int selection)
 	{
 		//we pull this from the GUI to see if that fixes things
 		skills[selection].activate(combatEnemy);
@@ -313,13 +337,13 @@ public class CombatManager
 		gameWindow.updateCombatLog(combatLog);
 	}
 	
-	public ability createSkill(int input)
+	public Ability createSkill(int input)
 	{
 		//this is just a big long Factory Pattern
 		//a switch case that can create any skill.
 		//when the upgradeTime method knows which skill the player wants, we'll go down here
 		//create that skill, and return it back upwards for the upgrade time method to give.
-		ability createdAbility;
+		Ability createdAbility;
 		
 		//check the ability class to ensure your switch case index matches this one.
 		switch(input)
@@ -344,12 +368,37 @@ public class CombatManager
 				createdAbility = new DefBreakSkill(4, player);
 				break;
 				
+			case 5:
+				createdAbility = new FocusingStrikeSkill(5, player);
+				break;
+				
+			case 6:
+				createdAbility = new HolyBladeSkill(6, player);
+				break;
+				
+			case 7:
+				createdAbility = new FrostLanceSkill(7, player);
+				
 			default: 
 				createdAbility = new FireSpell(0, player);
 				
 		}
 		
 		return createdAbility;
+	}
+	
+	public void gameOver()
+	{
+		//what to do:
+		//1) disable game window
+		//2) generate new loss window that can be used to reset the game
+	}
+	
+	public void gameWin()
+	{
+		//what to do:
+		//1) disable game window
+		//2) generate new victory window for the game victory!
 	}
 
 	// getters and setters

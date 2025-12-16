@@ -15,17 +15,17 @@
 *
 * <<Add more references here>>
 *
-* Version: 2025-12-04
+* Version: 2025-12-13
 */
 package mainPackage;
 
 /**
- * Purpose: The reponsibility of AtkBreakSkill is ...
+ * Purpose: The reponsibility of FocusingStrikeSkill is ...
  *
- * AtkBreakSkill is-a ...
- * AtkBreakSkill is ...
+ * FocusingStrikeSkill is-a ...
+ * FocusingStrikeSkill is ...
  */
-public class AtkBreakSkill extends Ability
+public class FocusingStrikeSkill extends Ability
 {
 
 	/**
@@ -33,7 +33,7 @@ public class AtkBreakSkill extends Ability
 	 * @param inSeed
 	 * @param hero
 	 */
-	public AtkBreakSkill(int inSeed, PlayerCharacter hero)
+	public FocusingStrikeSkill(int inSeed, PlayerCharacter hero)
 	{
 		super(inSeed, hero);
 		// TODO Auto-generated constructor stub
@@ -42,9 +42,9 @@ public class AtkBreakSkill extends Ability
 	@Override
 	public void activate(Enemy target)
 	{
-		System.out.println("Attacking The Arm!");
+		System.out.println("Strike And Focus");
 		target.takeDamage(effectVal);
-		target.debuffAttack();
+		player.focus();
 	}
 
 }

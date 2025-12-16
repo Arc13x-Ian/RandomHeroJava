@@ -31,12 +31,12 @@ import java.awt.event.ActionListener;
 public class SkillButtonListener implements ActionListener
 {
 	//fields
-	private ability attachedSkill;
+	private Ability attachedSkill;
 	private Enemy combatEnemy;
 	private CombatManager combat;
 	
 	//constructor
-	public SkillButtonListener(ability inSkill, Enemy inEnemy, CombatManager inCombat)
+	public SkillButtonListener(Ability inSkill, Enemy inEnemy, CombatManager inCombat)
 	{
 		attachedSkill = inSkill;
 		combatEnemy = inEnemy;

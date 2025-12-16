@@ -25,7 +25,7 @@ package mainPackage;
  * DefBreakSkill is-a ...
  * DefBreakSkill is ...
  */
-public class DefBreakSkill extends ability
+public class DefBreakSkill extends Ability
 {
 
 	/**
@@ -38,6 +38,7 @@ public class DefBreakSkill extends ability
 		super(inSeed, hero);
 	}
 	
+	@Override
 	public void activate(Enemy target)
 	{
 		System.out.println("Breaking the armor!");

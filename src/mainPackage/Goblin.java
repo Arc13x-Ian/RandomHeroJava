@@ -54,6 +54,14 @@ public class Goblin extends Enemy
 	@Override
 	public void takeDamage(int damage)
 	{
+		// first step: check if my health is debuffed, and if it is, double
+		// damage
+		if (defDown)
+		{
+			damage = damage + damage;
+			defDown = false;
+		}
+		
 		health -= damage;
 		//debug message
 				combatMessage = ("Goblin takes " + damage + " dmg!");
