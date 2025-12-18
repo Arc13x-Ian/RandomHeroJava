@@ -42,8 +42,11 @@ public class DualStrikeSkill extends Ability
 	@Override
 	public void activate(Enemy target)
 	{
-		System.out.println("Dualstrike!");
+		System.out.println("LeechStrike!");
+		player.skillCombatLog("Sap your foe's strength.");
 		target.takeDamage(effectVal);
+		player.heal(effectVal);
+		player.spendMana(mpCost);
 	}
 
 }

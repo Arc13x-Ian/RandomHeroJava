@@ -43,6 +43,7 @@ public class Goblin extends Enemy
 		if(atkDown)
 		{
 			target.takeDamage(2);
+			atkDown = false;
 		}
 		else
 		{
@@ -54,7 +55,7 @@ public class Goblin extends Enemy
 	@Override
 	public void takeDamage(int damage)
 	{
-		// first step: check if my health is debuffed, and if it is, double
+		// first step: check if my defense is debuffed, and if it is, double
 		// damage
 		if (defDown)
 		{

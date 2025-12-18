@@ -67,7 +67,15 @@ public class DeepOoze extends Enemy
 		}
 		else //when its a normal turn
 		{
-			target.takeDamage(4);
+			if(atkDown)
+			{
+				target.takeDamage(2);
+				atkDown = false;
+			}
+			else
+			{
+				target.takeDamage(4);				
+			}
 		}
 		
 		//then, move up the turn counter!
@@ -77,7 +85,7 @@ public class DeepOoze extends Enemy
 	@Override
 	public void takeDamage(int damage)
 	{
-		// first step: check if my health is debuffed, and if it is, double
+		// first step: check if my defense is debuffed, and if it is, double
 		// damage
 		if (defDown)
 		{
@@ -89,6 +97,10 @@ public class DeepOoze extends Enemy
 		damage = damage / 2;
 		
 		health = health - damage;
+		
+		combatMessage = ("Deep Ooze takes" + damage + " dmg!");
+		System.out.println(combatMessage);
+		combat.combatLogMessage(combatMessage);
 		
 		if (health <= 0)
 		{

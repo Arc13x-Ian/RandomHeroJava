@@ -52,6 +52,7 @@ public class IceSprite extends Enemy
 		else if (atkDown)
 		{
 			target.takeDamage(3);
+			atkDown = false;
 		}
 		else
 		{
@@ -62,7 +63,7 @@ public class IceSprite extends Enemy
 	@Override
 	public void takeDamage(int damage)
 	{
-		// first step: check if my health is debuffed, and if it is, double
+		// first step: check if my defense is debuffed, and if it is, double
 		// damage
 		if (defDown)
 		{

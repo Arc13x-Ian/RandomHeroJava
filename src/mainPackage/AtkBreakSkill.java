@@ -43,8 +43,10 @@ public class AtkBreakSkill extends Ability
 	public void activate(Enemy target)
 	{
 		System.out.println("Attacking The Arm!");
+		player.skillCombatLog("Attack the arm!");
 		target.takeDamage(effectVal);
 		target.debuffAttack();
+		player.spendMana(mpCost);
 	}
 
 }

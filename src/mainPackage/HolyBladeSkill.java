@@ -43,7 +43,9 @@ public class HolyBladeSkill extends Ability
 	public void activate(Enemy target)
 	{
 		System.out.println("Casting Holy Blade");
+		player.skillCombatLog("Strike with a holy blade!");
 		target.takeElementalDamage(effectVal, element);
+		player.spendMana(mpCost);
 	}
 
 }

@@ -48,7 +48,9 @@ public class CureSpell extends Ability
 	public void activate(Enemy target)
 	{
 		System.out.println("Casting Cure");
+		player.skillCombatLog("Casting Cure");
 		player.heal(effectVal);
+		player.spendMana(mpCost);
 	}
 
 }

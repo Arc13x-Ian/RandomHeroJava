@@ -44,6 +44,8 @@ public class FrostLanceSkill extends Ability
 	public void activate(Enemy target)
 	{
 		System.out.println("Casting Frost Lance");
+		player.skillCombatLog("Casting Frost Lance!");
 		target.takeElementalDamage(effectVal, element);
+		player.spendMana(mpCost);
 	}
 }

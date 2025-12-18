@@ -69,7 +69,7 @@ public abstract class Enemy
 				
 			case 2:
 				name = "Deep Ooze";
-				health = 40;
+				health = 25;
 				weakness = 99;
 				difficultyVal = 3;
 				enemySeed = 2;
@@ -77,7 +77,7 @@ public abstract class Enemy
 				
 			case 3:
 				name = "Cursed Armor";
-				health = 5;
+				health = 30;
 				weakness = 0;
 				difficultyVal = 0;
 				enemySeed = 3;
@@ -85,7 +85,7 @@ public abstract class Enemy
 				
 			case 4:
 				name = "Elemental Nexus";
-				health = 5;
+				health = 35;
 				weakness = 0;
 				difficultyVal = 0;
 				enemySeed = 4;
@@ -93,8 +93,8 @@ public abstract class Enemy
 				
 			case 5:
 				name = "Demon Lord";
-				health = 99;
-				weakness = 0;
+				health = 45;
+				weakness = 3;
 				difficultyVal = 9;
 				enemySeed = 5;
 				break;

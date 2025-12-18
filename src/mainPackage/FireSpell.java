@@ -44,7 +44,9 @@ public class FireSpell extends Ability
 	public void activate(Enemy target)
 	{
 		System.out.println("Casting Fire 1");
+		player.skillCombatLog("Casting Firebolt!");
 		target.takeElementalDamage(effectVal, element);
+		player.spendMana(mpCost);
 	}
 
 }

@@ -13,6 +13,8 @@
 */
 package mainPackage;
 
+import javax.swing.JOptionPane;
+
 /**
  * Purpose: The reponsibility of GameMain is Generate GUI, Keep watch for the game ending, and "manage" the game.
  *
@@ -21,14 +23,26 @@ package mainPackage;
 
 public class GameMain
 {
+	static PlayerCharacter player;
+	static CombatManager combatManager;
+	static String playerName;
 	
 	public static void main(String[] args)
 	{
-		PlayerCharacter player = new PlayerCharacter("TestHero");
+		playerName = JOptionPane.showInputDialog("Who are you, Hero?", JOptionPane.QUESTION_MESSAGE);
+		JOptionPane.showMessageDialog(null, "Enter the dungeon- kill the Demon Lord.", " ", JOptionPane.INFORMATION_MESSAGE);
+
+		player = new PlayerCharacter(playerName);
 //		Enemy testGob = new Goblin(0); //TESTING LINE, DELETE IN FUTURE
-		CombatManager combatManager = new CombatManager(player);
+		combatManager = new CombatManager(player);
 		GameScreenGUI game = new GameScreenGUI(player, combatManager);
 		combatManager.setupCombat();
 	}
 
+	public static void replayGame()
+	{
+		GameScreenGUI newGame = new GameScreenGUI(player, combatManager);
+		combatManager.setupCombat();
+	}
+	
 }

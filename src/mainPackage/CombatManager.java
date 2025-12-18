@@ -52,6 +52,8 @@ public class CombatManager
 	private boolean[] knownSkills; //TRUE skills should not be picked for learning.
 	private Random random;
 	private GameScreenGUI gameWindow;
+	
+	private int turnCount;
 
 	// Constructor
 
@@ -59,6 +61,7 @@ public class CombatManager
 	{
 		player = PC;
 		player.setCombatManager(this);
+		turnCount = 0;
 		
 		//create the random generator
 		random = new Random();
@@ -99,19 +102,19 @@ public class CombatManager
 			case 3:
 				System.out.println("Cursed Armor Encountered!");
 				combatLogMessage("Cursed Armor Encountered!");
-//				combatEnemy = new ;
+				combatEnemy = new CursedArmor(3);
 				break;
 				
 			case 4:
 				System.out.println("Elemental Nexus Encountered!");
 				combatLogMessage("Elemental Nexus Encountered!");
-//				combatEnemy = new ;
+				combatEnemy = new ElementalNexus(4);
 				break;
 				
 			case 5:
 				System.out.println("FINAL BOSS: Demon Lord!");
 				combatLogMessage("FINAL BOSS: Demon Lord!");
-//				combatEnemy = new ;
+				combatEnemy = new DemonLord(5);
 				break;
 		}
 
@@ -144,18 +147,21 @@ public class CombatManager
 		{
 			combatEnemy.takeTurn();
 		}
+		turnCount++;
 		gameWindow.refreshGUI();
 	}
 
 	public void endCombat(int victor)
 	{
 		combatActive = false;
-		winner = victor;
+//		winner = victor;
 		levelCounter++;
 		// Debug message to make sure we're getting out of combat
 		System.out.println("Combat is over!");
-
-		// TODO: run the upgrade picker, then setup a new combat after this one.
+		
+		gameWindow.updateCombatLog(player.getName() + "Level Up!");
+		player.levelUp();
+		gameWindow.updateCombatLog("Choose an Upgrade.");
 		upgradeTime();
 		setupCombat();
 	}
@@ -387,18 +393,28 @@ public class CombatManager
 		return createdAbility;
 	}
 	
-	public void gameOver()
+	public void gameLose()
 	{
 		//what to do:
+		//0) reset clerical stuff (Set level counter to 0, and set all skills to unknown
 		//1) disable game window
 		//2) generate new loss window that can be used to reset the game
+		player.resetStats();
+		gameWindow.dispose();
+		new GameEndGUI(false, turnCount, player);
+
+		
 	}
 	
 	public void gameWin()
 	{
 		//what to do:
+		//0) reset clerical stuff (Set level counter to 0, and set all skills to unknown
 		//1) disable game window
 		//2) generate new victory window for the game victory!
+		player.resetStats();
+		gameWindow.dispose();
+		new GameEndGUI(true, turnCount, player);
 	}
 
 	// getters and setters

@@ -43,7 +43,9 @@ public class FocusingStrikeSkill extends Ability
 	public void activate(Enemy target)
 	{
 		System.out.println("Strike And Focus");
+		player.skillCombatLog("Attack and Focus!");
 		target.takeDamage(effectVal);
+		player.focus();
 		player.focus();
 	}
 

@@ -58,17 +58,17 @@ public class Ability
 				
 			case 1: //regen
 				skillName = "Cure";
-				effectVal = 12;
-				mpCost = 8;
+				effectVal = 15;
+				mpCost = 5;
 				element = 0;
 				seed = inSeed;
 				isPassive = false;
 				break;
 				
 			case 2: //double strike
-				skillName = "Dual Blow";
+				skillName = "Lifesteal Strike";
 				effectVal = 10;
-				mpCost = 2;
+				mpCost = 3;
 				element = 0;
 				seed = inSeed;
 				isPassive = false;
@@ -76,8 +76,8 @@ public class Ability
 				
 			case 3: //Attack Break
 				skillName = "ATK Break";
-				effectVal = 3;
-				mpCost = 4;
+				effectVal = 5;
+				mpCost = 3;
 				element = 0;
 				seed = inSeed;
 				isPassive = false;
@@ -85,8 +85,8 @@ public class Ability
 
 			case 4: //Defense Break
 				skillName = "DEF Break";
-				effectVal = 3;
-				mpCost = 4;
+				effectVal = 5;
+				mpCost = 3;
 				element = 0;
 				seed = inSeed;
 				isPassive = false;
@@ -94,7 +94,7 @@ public class Ability
 				
 			case 5: //Focusing Strike
 				skillName = "Focusing Strike";
-				effectVal = 3;
+				effectVal = 4;
 				mpCost = 0;
 				element = 0;
 				seed = inSeed;
@@ -103,9 +103,9 @@ public class Ability
 				
 			case 6: //Holy Blade
 				skillName = "Holy Blade";
-				effectVal = 5;
-				mpCost = 5;
-				element = 9;
+				effectVal = 6;
+				mpCost = 3;
+				element = 3;
 				seed = inSeed;
 				isPassive = false;
 				break;

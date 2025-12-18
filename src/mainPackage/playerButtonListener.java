@@ -22,6 +22,8 @@ package mainPackage;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JOptionPane;
+
 /**
  * Purpose: The reponsibility of playerButtonListener is ...
  *
@@ -66,13 +68,17 @@ public class playerButtonListener implements ActionListener
 				
 				//TODO: here we will be printing out the skills in console. What we NEED to do is create either a new widget, a new window, or a JOptionPane
 				//that lists the skills with buttons, then calls player.activateSkill(x) where x is the skill to activate.
-				if (knownAbilities.length > 0)
+				if (knownAbilities.length > 0 && player.getMana() > 0)
 				{
 					for (int i = 0; i < knownAbilities.length; i++)
 					{
 						System.out.println(knownAbilities[i].getName());
 					}		
 					screen.generateSkillMenu(knownAbilities);
+				}
+				else if(player.getMana() <= 0) //no mana, no skills using
+				{
+					JOptionPane.showMessageDialog(null, "Out of Mana! Can't use skills...", " ", JOptionPane.WARNING_MESSAGE);
 				}
 				else
 				{

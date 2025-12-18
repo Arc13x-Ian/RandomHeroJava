@@ -42,8 +42,10 @@ public class DefBreakSkill extends Ability
 	public void activate(Enemy target)
 	{
 		System.out.println("Breaking the armor!");
+		player.skillCombatLog("Break their armor!");
 		target.takeDamage(effectVal);
 		target.debuffDefense();
+		player.spendMana(mpCost);
 	}
 
 }
