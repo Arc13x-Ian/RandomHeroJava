@@ -21,6 +21,7 @@
  */
 package mainPackage;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 /**
@@ -137,10 +138,18 @@ public class PlayerCharacter
 			// TODO: Lose the game if HP is 0 or less.
 
 			// debug message
-			combatMessage = (name + "has died!");
+			combatMessage = (name + " has died!");
 			System.out.println(combatMessage);
 			combat.combatLogMessage(combatMessage);
-			combat.gameLose();
+			try
+			{
+				combat.gameLose();
+			}
+			catch (FileNotFoundException e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -220,5 +229,10 @@ public class PlayerCharacter
 	public int getLevel()
 	{
 		return level;
+	}
+	
+	public void setMana(int inMana)
+	{
+		manaPoints = inMana;
 	}
 }

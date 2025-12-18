@@ -13,6 +13,8 @@
 */
 package mainPackage;
 
+import java.io.FileNotFoundException;
+
 import javax.swing.JOptionPane;
 
 /**
@@ -27,7 +29,7 @@ public class GameMain
 	static CombatManager combatManager;
 	static String playerName;
 	
-	public static void main(String[] args)
+	public static void main(String[] args) throws FileNotFoundException
 	{
 		playerName = JOptionPane.showInputDialog("Who are you, Hero?", JOptionPane.QUESTION_MESSAGE);
 		JOptionPane.showMessageDialog(null, "Enter the dungeon- kill the Demon Lord.", " ", JOptionPane.INFORMATION_MESSAGE);
@@ -39,7 +41,7 @@ public class GameMain
 		combatManager.setupCombat();
 	}
 
-	public static void replayGame()
+	public static void replayGame() throws FileNotFoundException
 	{
 		GameScreenGUI newGame = new GameScreenGUI(player, combatManager);
 		combatManager.setupCombat();

@@ -21,6 +21,7 @@
  */
 package mainPackage;
 
+import java.io.FileNotFoundException;
 import java.util.Random;
 
 /**
@@ -76,9 +77,10 @@ public class CombatManager
 
 	// Methods
 
-	public void setupCombat()
+	public void setupCombat() throws FileNotFoundException
 	{
 		// first, we check the level counter
+		// level counter == 6 means the game is over, so instead of doing anything else, we just win game.
 		switch (levelCounter)
 		{
 			case 0:
@@ -116,6 +118,10 @@ public class CombatManager
 				combatLogMessage("FINAL BOSS: Demon Lord!");
 				combatEnemy = new DemonLord(5);
 				break;
+				
+			case 6:
+				gameWin();
+				break;
 		}
 
 		// then, we assign combatEnemy to be a new Enemy based on the level
@@ -123,7 +129,10 @@ public class CombatManager
 
 		// then, we set the combatEnemy's target to be the player, and their
 		// combat manager to be here.
-		beginCombat();
+		if (levelCounter < 6)
+		{
+			beginCombat();			
+		}
 	}
 
 	public void beginCombat()
@@ -142,28 +151,44 @@ public class CombatManager
 
 	public void enemyTurn()
 	{
-		System.out.println("Enemy turn");
-		if (combatActive)
+		//lets wrap the WHOOOOLE thing in an if so we don't get enemy + player turn
+		if (combatEnemy.getHP() > 0) //if the enemy is ALIVE
 		{
-			combatEnemy.takeTurn();
+			System.out.println("Enemy turn");
+			if (combatActive)
+			{
+				combatEnemy.takeTurn();
+			}
+			turnCount++;
+			gameWindow.refreshGUI();			
 		}
-		turnCount++;
-		gameWindow.refreshGUI();
 	}
 
 	public void endCombat(int victor)
 	{
+		
 		combatActive = false;
 //		winner = victor;
 		levelCounter++;
 		// Debug message to make sure we're getting out of combat
-		System.out.println("Combat is over!");
-		
-		gameWindow.updateCombatLog(player.getName() + "Level Up!");
-		player.levelUp();
-		gameWindow.updateCombatLog("Choose an Upgrade.");
-		upgradeTime();
-		setupCombat();
+		if (levelCounter < 6) //if its 6 that means game is over so we don't need to do this
+		{
+			System.out.println("Combat is over!");
+			
+			gameWindow.updateCombatLog(player.getName() + "Level Up!");
+			player.levelUp();
+			gameWindow.updateCombatLog("Choose an Upgrade.");
+			upgradeTime();			
+		}
+		try
+		{
+			setupCombat();
+		}
+		catch (FileNotFoundException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public void upgradeTime()
@@ -393,28 +418,47 @@ public class CombatManager
 		return createdAbility;
 	}
 	
-	public void gameLose()
+	public void gameLose() throws FileNotFoundException
 	{
 		//what to do:
 		//0) reset clerical stuff (Set level counter to 0, and set all skills to unknown
 		//1) disable game window
 		//2) generate new loss window that can be used to reset the game
+		resetGame();
 		player.resetStats();
 		gameWindow.dispose();
-		new GameEndGUI(false, turnCount, player);
+		try
+		{
+			new GameEndGUI(false, turnCount, player);
+		}
+		catch (FileNotFoundException e)
+		{
+			e.printStackTrace();
+		}
 
 		
 	}
 	
-	public void gameWin()
+	public void gameWin() throws FileNotFoundException
 	{
 		//what to do:
 		//0) reset clerical stuff (Set level counter to 0, and set all skills to unknown
 		//1) disable game window
 		//2) generate new victory window for the game victory!
+		resetGame();
 		player.resetStats();
 		gameWindow.dispose();
 		new GameEndGUI(true, turnCount, player);
+	}
+	
+	public void resetGame()
+	{
+		levelCounter = 0;
+		
+		for (int x = 0; x < knownSkills.length; x++)
+		{
+			knownSkills[x] = false; //we know nothing
+		}
 	}
 
 	// getters and setters

@@ -24,6 +24,11 @@ import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.PrintWriter;
+import java.util.Scanner;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -48,13 +53,20 @@ public class GameEndGUI extends JFrame implements ActionListener
 	
 	private String sprawlTextString;
 	private String statString;
+	private String recordString;
+	
+	private PrintWriter printer;
+	private FileReader reader;
+	
+	private int turnCount;
 	
 	
 	//constructor
-	public GameEndGUI(boolean playerWins, int turnCount, PlayerCharacter player)
+	public GameEndGUI(boolean playerWins, int inTurnCount, PlayerCharacter player) throws FileNotFoundException
 	{
+		turnCount = inTurnCount;
 		//basically, if the input is true, we setup a player winning screen. If the input is false, we set up a loss screen.
-		this.setLayout(new GridLayout(3,1));
+		this.setLayout(new GridLayout(4,1));
 		this.setBackground(Color.BLUE);
 		this.setSize(600, 600);
 		
@@ -62,7 +74,13 @@ public class GameEndGUI extends JFrame implements ActionListener
 		{
 			this.setTitle("You Win!!!");
 			sprawlTextString = "With the Demon Lord Vanquished, " + player.getName() + " leaves for their next adventure...";
-			statString = "Hero: " + player.getName() + ". Turn Count: " + turnCount;
+			statString = "Hero: " + player.getName() + ". Turn Count: " + inTurnCount;
+			//now, we need to check the record to see if we have a new record.
+			boolean newRecord = checkRecord(statString); //this will ALSO write the record if it exists.
+			if (newRecord)
+			{
+				statString = "NEW RECORD! " + statString;
+			}
 		}
 		
 		if(!playerWins)
@@ -74,10 +92,21 @@ public class GameEndGUI extends JFrame implements ActionListener
 		
 		sprawlText = new JLabel(sprawlTextString);
 		stats = new JLabel(statString);
+		record = null;
+		try
+		{
+			record = new JLabel("Record: " + getRecord());			
+		}
+		catch (FileNotFoundException e)
+		{
+			
+		}
+		
 		buttonSetup();
 		//in the top left we have: a big message!
 		this.add(sprawlText);
 		this.add(stats);
+		this.add(record);
 		this.add(restartButton);
 				
 		this.pack();
@@ -93,11 +122,116 @@ public class GameEndGUI extends JFrame implements ActionListener
 //		quitButton = new JButton();
 //		quitButton.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent e) {GameEndGUI.dispose()} });
 	}
+	
+	public String getRecord() throws FileNotFoundException
+	{
+		String record = "";
+		File recordFile = new File("textData/recordData.txt");
+		Scanner fileReader = null;
+		
+		try
+		{
+			fileReader = new Scanner(recordFile);
+			while(fileReader.hasNext())
+			{
+				record += fileReader.next();
+			}
+		}
+		catch(FileNotFoundException e)
+		{
+			System.out.print(e);
+			record = "No Record Set!";
+		}
+		finally
+		{
+			if (fileReader != null)
+			{
+				fileReader.close();
+			}
+		}
+		return record;
+	}
+	
+	public boolean checkRecord(String recordData) throws FileNotFoundException, NumberFormatException
+	{
+		//first, we need to open up and read the old record.
+		try
+		{
+			String record = getRecord();
+			
+			//now if we DID get something, we need to verify if the current number is lower than the old one.
+			int turnCountIndex = record.indexOf(":", 6); //we use : 2 times, first with Hero: and then with Turn Count:
+			String subString = record.substring(turnCountIndex); //this substring SHOULD be just the turncount.
+			String turnCountString = subString.replaceAll("[^0-9]", ""); //this should clean out any non numbers
+			
+			//now that we have a string of just numbers, convert to int.
+			
+			int recordTurnCount = Integer.parseInt(turnCountString);
+			
+			//now that we have the old turn count, if the new turn count is faster, we write the new record.
+			if (turnCount < recordTurnCount)
+			{
+				writeRecord(recordData);
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+			
+	
+		}
+		catch(FileNotFoundException e)
+		{
+			//if we can't find a file, that *probably* means we don't have a record yet, just write.
+			writeRecord(recordData);
+		}
+		catch(NumberFormatException e)
+		{
+			//if the number checking code fails for whatever reason, just write
+			//(there may be something wrong with the string, so overriding it may be for the best.)
+			writeRecord(recordData);
+		}
+		finally
+		{
+			//and if something failed along the way... just return false
+			return false;
+		}
+		
+	}
+	
+	public void writeRecord(String recordData) throws FileNotFoundException
+	{
+		System.out.println("Writing Record!");
+		try
+		{
+			printer = new PrintWriter("textData/recordData.txt");
+			System.out.println("Attempting to Write: " + recordData);
+			printer.println(recordData);
+		}
+		catch(FileNotFoundException e)
+		{
+			
+		}
+		finally
+		{
+			printer.close();
+		}
+		
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
-		GameMain.replayGame();
+		try
+		{
+			GameMain.replayGame();
+		}
+		catch (FileNotFoundException e1)
+		{
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		this.dispose();
 	}
 }

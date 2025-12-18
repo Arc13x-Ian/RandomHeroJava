@@ -19,6 +19,8 @@
 */
 package mainPackage;
 
+import java.io.FileNotFoundException;
+
 /**
  * Purpose: The reponsibility of Enemy is ...
  *
@@ -147,6 +149,11 @@ public abstract class Enemy
 	public void setCombatManager(CombatManager inCom)
 	{
 		combat = inCom;
+	}
+	
+	public int getHP()
+	{
+		return health;
 	}
 
 }

@@ -21,6 +21,7 @@
  */
 package mainPackage;
 
+import java.io.FileNotFoundException;
 import java.util.Random;
 
 /**
@@ -75,15 +76,22 @@ public class DemonLord extends Enemy
 					combat.combatLogMessage(combatMessage);
 					finalCharge++;
 					break;
-
+					
 				case 1:
-					combatMessage = ("ULTIMA is about to be cast!");
+					combatMessage = ("ULTIMA begins to form!");
 					System.out.println(combatMessage);
 					combat.combatLogMessage(combatMessage);
 					finalCharge++;
 					break;
 
 				case 2:
+					combatMessage = ("ULTIMA is about to be cast!");
+					System.out.println(combatMessage);
+					combat.combatLogMessage(combatMessage);
+					finalCharge++;
+					break;
+
+				case 3:
 					combatMessage = ("The world fades away.");
 					System.out.println(combatMessage);
 					combat.combatLogMessage(combatMessage);
@@ -157,7 +165,7 @@ public class DemonLord extends Enemy
 
 		health = health - damage;
 
-		combatMessage = ("Demon Lord takes" + damage + " dmg!");
+		combatMessage = ("Demon Lord takes " + damage + " dmg!");
 		System.out.println(combatMessage);
 		combat.combatLogMessage(combatMessage);
 
@@ -176,7 +184,7 @@ public class DemonLord extends Enemy
 			combatMessage = ("VICTORY!!!");
 			System.out.println(combatMessage);
 			combat.combatLogMessage(combatMessage);
-			combat.gameWin();
+			combat.endCombat(0);
 		}
 	}
 
