@@ -62,7 +62,7 @@ public class GameEndGUI extends JFrame implements ActionListener
 	
 	
 	//constructor
-	public GameEndGUI(boolean playerWins, int inTurnCount, PlayerCharacter player) throws FileNotFoundException
+	public GameEndGUI(boolean playerWins, int inTurnCount, int finalFloor, PlayerCharacter player) throws FileNotFoundException
 	{
 		turnCount = inTurnCount;
 		//basically, if the input is true, we setup a player winning screen. If the input is false, we set up a loss screen.
@@ -87,7 +87,7 @@ public class GameEndGUI extends JFrame implements ActionListener
 		{
 			this.setTitle("You Lose...");
 			sprawlTextString = "The Demon Lord remains in the dungeon... who can stop him?";
-			statString = player.getName() + " was felled on floor " + player.getLevel() + "...";
+			statString = player.getName() + " was felled on floor " + finalFloor + "...";
 		}
 		
 		sprawlText = new JLabel(sprawlTextString);
@@ -134,7 +134,7 @@ public class GameEndGUI extends JFrame implements ActionListener
 			fileReader = new Scanner(recordFile);
 			while(fileReader.hasNext())
 			{
-				record += fileReader.next();
+				record += fileReader.nextLine();
 			}
 		}
 		catch(FileNotFoundException e)
@@ -149,11 +149,13 @@ public class GameEndGUI extends JFrame implements ActionListener
 				fileReader.close();
 			}
 		}
+		System.out.println("Record Retrieved: " + record);
 		return record;
 	}
 	
-	public boolean checkRecord(String recordData) throws FileNotFoundException, NumberFormatException
+	public boolean checkRecord(String recordData) throws FileNotFoundException, NumberFormatException, IndexOutOfBoundsException
 	{
+		System.out.println("Checking for new record!");
 		//first, we need to open up and read the old record.
 		try
 		{
@@ -162,7 +164,9 @@ public class GameEndGUI extends JFrame implements ActionListener
 			//now if we DID get something, we need to verify if the current number is lower than the old one.
 			int turnCountIndex = record.indexOf(":", 6); //we use : 2 times, first with Hero: and then with Turn Count:
 			String subString = record.substring(turnCountIndex); //this substring SHOULD be just the turncount.
+			System.out.println("Substring: " + subString);
 			String turnCountString = subString.replaceAll("[^0-9]", ""); //this should clean out any non numbers
+			System.out.println("Only Numbers: " + turnCountString);
 			
 			//now that we have a string of just numbers, convert to int.
 			
@@ -171,6 +175,7 @@ public class GameEndGUI extends JFrame implements ActionListener
 			//now that we have the old turn count, if the new turn count is faster, we write the new record.
 			if (turnCount < recordTurnCount)
 			{
+				System.out.println("New Turn Count is Lower, trying to write a new record:");
 				writeRecord(recordData);
 				return true;
 			}
@@ -191,6 +196,18 @@ public class GameEndGUI extends JFrame implements ActionListener
 			//if the number checking code fails for whatever reason, just write
 			//(there may be something wrong with the string, so overriding it may be for the best.)
 			writeRecord(recordData);
+		}
+		catch(IndexOutOfBoundsException e)
+		{
+			//if we've hit this, that means there is NOT two :'s in our process. Which means...
+			//that we probably don't have a record set.
+			//so, we just set the record.
+			writeRecord(recordData);
+		}
+		catch(Exception e)
+		{
+			System.out.println(e);
+			writeRecord("Record Process Corrupted.");
 		}
 		finally
 		{

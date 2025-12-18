@@ -186,7 +186,7 @@ public class PlayerCharacter
 	public void levelUp()
 	{
 		level++;
-
+		
 		manaPoints = maxMP;
 
 		healthPoints += 15;
@@ -234,5 +234,10 @@ public class PlayerCharacter
 	public void setMana(int inMana)
 	{
 		manaPoints = inMana;
+	}
+	
+	public void setName(String newName)
+	{
+		name = newName;
 	}
 }

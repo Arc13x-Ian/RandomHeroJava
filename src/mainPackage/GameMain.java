@@ -43,6 +43,8 @@ public class GameMain
 
 	public static void replayGame() throws FileNotFoundException
 	{
+		playerName = JOptionPane.showInputDialog("Who enters the dungeon?", JOptionPane.QUESTION_MESSAGE);
+		player.setName(playerName);
 		GameScreenGUI newGame = new GameScreenGUI(player, combatManager);
 		combatManager.setupCombat();
 	}

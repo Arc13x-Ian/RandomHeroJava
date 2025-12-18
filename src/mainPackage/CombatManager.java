@@ -424,12 +424,14 @@ public class CombatManager
 		//0) reset clerical stuff (Set level counter to 0, and set all skills to unknown
 		//1) disable game window
 		//2) generate new loss window that can be used to reset the game
+		int finalFloor = player.getLevel();
+		
 		resetGame();
 		player.resetStats();
 		gameWindow.dispose();
 		try
 		{
-			new GameEndGUI(false, turnCount, player);
+			new GameEndGUI(false, turnCount, finalFloor, player);
 		}
 		catch (FileNotFoundException e)
 		{
@@ -445,10 +447,12 @@ public class CombatManager
 		//0) reset clerical stuff (Set level counter to 0, and set all skills to unknown
 		//1) disable game window
 		//2) generate new victory window for the game victory!
+		int finalFloor = player.getLevel();
+		
 		resetGame();
 		player.resetStats();
 		gameWindow.dispose();
-		new GameEndGUI(true, turnCount, player);
+		new GameEndGUI(true, turnCount, finalFloor, player);
 	}
 	
 	public void resetGame()
