@@ -47,6 +47,11 @@ public abstract class Enemy
 	//enemy key: 0 = goblin, 1 = ice sprite, 99 = demon
 	
 	//Superconstructor
+	/**
+	 * 
+	 * Purpose: Constructs all enemy types in a lite factory pattern, built on a switch case for easy reference later on
+	 * @param inSeed the seed which is used to populate an Enemy's fields
+	 */
 	public Enemy(int inSeed)
 	{		
 		switch(inSeed)
@@ -113,15 +118,38 @@ public abstract class Enemy
 	//1) Having their attack debuffed when taking turn
 	//2) Having their defense debuffed when taking damage
 	
-	
+	/**
+	 * 
+	 * Purpose: This method includes the enemy's decision making tree for when it is their turn in combat. This method will be highly individualized per child class.
+	 */
 	public abstract void takeTurn(); //holds enemy combat behavior
 	
+	/**
+	 * 
+	 * Purpose: This method both serves to have the enemy take damage, but to handle any enemy reactions to taking damage. Also informs the observer (the combat manager) if they die.
+	 * @param damage the incoming damage
+	 */
 	public abstract void takeDamage(int damage); //allows the enemy to take damage. Abstract in case an enemy has unique HP behavior.
 	
+	/**
+	 * 
+	 * Purpose: Elemental skills call this method, where the enemy will (potentially) modify the damage based on their weaknesses/resistances, then pass that into the normal takeDamage() method.
+	 * @param damage the incoming amount of damage of damage
+	 * @param elementType the int index for the elemental type of damage
+	 */
 	public abstract void takeElementalDamage(int damage, int elementType); //check for an elemental weakness/resistance, change the damage number accordingly, pass to takeDamage.
 	
+	/**
+	 * 
+	 * Purpose: holds a short description of an enemy for a player to read, including hints about how the enemy operates
+	 * @return an array of strings to be pushed to the combat log one at a time
+	 */
 	public abstract String[] scanForInfo();
 	
+	/**
+	 * 
+	 * Purpose: triggers the attack down debuff boolean and pushes a message to the combat log about it
+	 */
 	public void debuffAttack()
 	{
 		atkDown = true;
@@ -131,6 +159,10 @@ public abstract class Enemy
 		combat.combatLogMessage(combatMessage);
 	}
 	
+	/**
+	 * 
+	 * Purpose: triggers the defense down debuff boolean and pushes a message to the combat log about it
+	 */
 	public void debuffDefense()
 	{
 		defDown = true;
@@ -141,16 +173,31 @@ public abstract class Enemy
 	}
 	
 	//getters and setters
+	/**
+	 * 
+	 * Purpose: setter method for the target field
+	 * @param hero the player character to target
+	 */
 	public void setTarget(PlayerCharacter hero)
 	{
 		target = hero;
 	}
 	
+	/**
+	 * 
+	 * Purpose: setter method for the combat field
+	 * @param inCom the game's combat manager to set into the field
+	 */
 	public void setCombatManager(CombatManager inCom)
 	{
 		combat = inCom;
 	}
 	
+	/**
+	 * 
+	 * Purpose: getter for the health field 
+	 * @return the current value of health
+	 */
 	public int getHP()
 	{
 		return health;

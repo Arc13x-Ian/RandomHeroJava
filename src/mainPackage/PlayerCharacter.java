@@ -44,6 +44,12 @@ public class PlayerCharacter
 	private CombatManager combat;
 
 	// constructors
+	/**
+	 * 
+	 * Purpose: General constructor for the player's character
+	 * 
+	 * @param inName String for the name for the hero
+	 */
 	public PlayerCharacter(String inName)
 	{
 		name = inName;
@@ -57,12 +63,23 @@ public class PlayerCharacter
 
 	// methods
 
+	/**
+	 * 
+	 * Purpose: Takes turn, deals damage to the current enemy, increasing as the
+	 * player levels up
+	 * 
+	 * @param target the enemy to affect the health of
+	 */
 	public void attack(Enemy target)
 	{
 		target.takeDamage(4 + level);
 		combat.enemyTurn();
 	}
 
+	/**
+	 * 
+	 * Purpose: Takes turn, restoring a small amount of health and mana
+	 */
 	public void focus()
 	{
 		int focusPts = (maxMP / 10) * 2;
@@ -87,17 +104,34 @@ public class PlayerCharacter
 		combat.enemyTurn();
 	}
 
+	/**
+	 * 
+	 * Purpose: Takes turn, scanning the enemy for info by calling the combat
+	 * manager's method
+	 */
 	public void scan()
 	{
 		combat.scan();
 		combat.enemyTurn();
 	}
 
+	/**
+	 * 
+	 * Purpose: Adds a new skill to the player's arrayList of known skills
+	 * 
+	 * @param newSkill the Ability object to add to the arrayList
+	 */
 	public void learnSkill(Ability newSkill)
 	{
 		abilityList.add(newSkill);
 	}
 
+	/**
+	 * 
+	 * Purpose: Creates a list of only active skills known by the player
+	 * 
+	 * @return a static array of currently known active skills
+	 */
 	public Ability[] listSkills()
 	{
 		Ability[] skillList = new Ability[abilityList.size()];
@@ -120,11 +154,26 @@ public class PlayerCharacter
 		return skillList;
 	}
 
+	/**
+	 * 
+	 * Purpose: activates a given skill off the ability list, targeting the
+	 * enemy. DEPRECATED (the buttons that activate skills now have the skills
+	 * attached and activate on that end.
+	 * 
+	 * @param selectedSkill the index of the skill within the arrayList.
+	 */
 	public void activateSkill(int selectedSkill)
 	{
 		abilityList.get(selectedSkill).activate(combat.getEnemy());
 	}
 
+	/**
+	 * 
+	 * Purpose: reduces the player's health by incoming damage, and causes the
+	 * player to lose if the hp value drops to 0 or below
+	 * 
+	 * @param dmg the value to reduce health by
+	 */
 	public void takeDamage(int dmg)
 	{
 		healthPoints -= dmg;
@@ -153,6 +202,12 @@ public class PlayerCharacter
 		}
 	}
 
+	/**
+	 * 
+	 * Purpose: heals the player, raising their health up to the maximum value
+	 * 
+	 * @param healAmt the amount to heal by
+	 */
 	public void heal(int healAmt)
 	{
 		healthPoints += healAmt;
@@ -167,26 +222,40 @@ public class PlayerCharacter
 		combat.combatLogMessage(combatMessage);
 
 	}
-	
+
+	/**
+	 * 
+	 * Purpose: reduces the player's mana to a minimum of 0
+	 * 
+	 * @param cost the amount to reduce the mana value by
+	 */
 	public void spendMana(int cost)
 	{
 		manaPoints -= cost;
-		
+
 		if (manaPoints < 0)
 		{
 			manaPoints = 0;
 		}
 	}
 
+	/**
+	 * 
+	 * Purpose: calls the combat manager's combat log updater (skills know the
+	 * player, so pass their combat log messsages here, then to the manager,
+	 * then to the GUI)
+	 * 
+	 * @param combatMessage String message to send along
+	 */
 	public void skillCombatLog(String combatMessage)
 	{
 		combat.combatLogMessage(combatMessage);
 	}
-	
+
 	public void levelUp()
 	{
 		level++;
-		
+
 		manaPoints = maxMP;
 
 		healthPoints += 15;
@@ -197,6 +266,10 @@ public class PlayerCharacter
 		}
 	}
 
+	/**
+	 * 
+	 * Purpose: resets the player's stats when they begin a new game by clearing the ability list, topping off HP and MP, and resetting level
+	 */
 	public void resetStats()
 	{
 		abilityList.clear();
@@ -206,36 +279,72 @@ public class PlayerCharacter
 	}
 
 	// getters and setters
+	
+	/**
+	 * 
+	 * Purpose: Getter class for the name field
+	 * @return current name
+	 */
 	public String getName()
 	{
 		return name;
 	}
 
+	/**
+	 * 
+	 * Purpose: Getter method for the healthPoints field
+	 * @return current healthPoints value
+	 */
 	public int getHealth()
 	{
 		return healthPoints;
 	}
 
+	/**
+	 * 
+	 * Purpose: Getter method for the manaPoints field
+	 * @return current manaPoints value
+	 */
 	public int getMana()
 	{
 		return manaPoints;
 	}
 
+	/**
+	 * 
+	 * Purpose: Setter method for the combatManager field
+	 * @param inCom combatManager object
+	 */
 	public void setCombatManager(CombatManager inCom)
 	{
 		combat = inCom;
 	}
 
+	/**
+	 * 
+	 * Purpose: Getter method for the level field
+	 * @return current level value
+	 */
 	public int getLevel()
 	{
 		return level;
 	}
-	
+
+	/**
+	 * 
+	 * Purpose: Setter method for the manaPoints value
+	 * @param inMana the value to set the manaPoints to
+	 */
 	public void setMana(int inMana)
 	{
 		manaPoints = inMana;
 	}
-	
+
+	/**
+	 * 
+	 * Purpose: Setter method for the name field
+	 * @param newName the new name to set
+	 */
 	public void setName(String newName)
 	{
 		name = newName;

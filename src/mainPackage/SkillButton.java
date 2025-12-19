@@ -35,6 +35,12 @@ public class SkillButton extends JButton
 	private CombatManager combat;
 	//constructors
 	
+	/**
+	 * 
+	 * Purpose: DEPRECATED constructor for a button class for skills
+	 * @param inSkill the skill attached to the button
+	 * @param inCombat the combat manager
+	 */
 	public SkillButton(Ability inSkill, CombatManager inCombat)
 	{
 		attachedSkill = inSkill;

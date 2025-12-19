@@ -32,6 +32,14 @@ public class playerButton extends JButton
 	//fields
 	
 	//constructor
+	/**
+	 * 
+	 * Purpose: All purpose button for the player's four action buttons
+	 * @param seed an int that defines which of the four action buttons this button should be
+	 * @param player the playerCharacter object
+	 * @param combat the combatManager object
+	 * @param screen the GameScreenGUI object
+	 */
 	public playerButton(int seed, PlayerCharacter player, CombatManager combat, GameScreenGUI screen)
 	{		
 		switch (seed)

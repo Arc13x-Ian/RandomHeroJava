@@ -40,9 +40,9 @@ public class DemonLord extends Enemy
 	private boolean finalLimit;
 
 	/**
-	 * Purpose:
+	 * Purpose: General constructor for the Demon Lord, passes along to the superconstructor. Also primes his unique fields.
 	 * 
-	 * @param inSeed
+	 * @param inSeed the seed for the enemy to properly populate its fields
 	 */
 	public DemonLord(int inSeed)
 	{
@@ -211,6 +211,11 @@ public class DemonLord extends Enemy
 		return messages;
 	}
 
+	/**
+	 * 
+	 * Purpose: Since the Demon Lord has multiple internal systems modifying his damage, moving the math over to a separate method felt valuable.
+	 * @param dmg the damage before modification
+	 */
 	public void dealDamage(int dmg)
 	{
 		if (atkDown)

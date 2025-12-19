@@ -29,8 +29,9 @@ public class Goblin extends Enemy
 {
 
 	/**
-	 * Purpose: 
-	 * @param inSeed
+	 * Purpose: General constructor for the enemy, passes along to the superconstructor
+	 * 
+	 * @param inSeed the seed for the enemy to properly populate its fields
 	 */
 	public Goblin(int inSeed)
 	{

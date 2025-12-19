@@ -32,4 +32,6 @@ public class ActionButton extends JButton
 	//fields
 	private int idSeed;
 	
+	//DEPRECATED CLASS
+	
 }

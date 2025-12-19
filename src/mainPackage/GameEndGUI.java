@@ -62,6 +62,15 @@ public class GameEndGUI extends JFrame implements ActionListener
 	
 	
 	//constructor
+	/**
+	 * 
+	 * Purpose: The general constructor for both a game win and game loss end screen
+	 * @param playerWins The boolean that determines if this is a win or loss screen
+	 * @param inTurnCount The number of turns that had elapsed before the game ended
+	 * @param finalFloor The number of levels the player beat
+	 * @param player The player character (used for extracting their name
+	 * @throws FileNotFoundException
+	 */
 	public GameEndGUI(boolean playerWins, int inTurnCount, int finalFloor, PlayerCharacter player) throws FileNotFoundException
 	{
 		turnCount = inTurnCount;
@@ -113,6 +122,10 @@ public class GameEndGUI extends JFrame implements ActionListener
 		this.setVisible(true);
 	}
 	
+	/**
+	 * 
+	 * Purpose: sets up the play again button and its functionality
+	 */
 	public void buttonSetup()
 	{
 		restartButton = new JButton();
@@ -123,6 +136,12 @@ public class GameEndGUI extends JFrame implements ActionListener
 //		quitButton.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent e) {GameEndGUI.dispose()} });
 	}
 	
+	/**
+	 * 
+	 * Purpose: opens up the recordData file to pull out the recorded top record for the game
+	 * @return the String contained in the recordData file
+	 * @throws FileNotFoundException
+	 */
 	public String getRecord() throws FileNotFoundException
 	{
 		String record = "";
@@ -153,6 +172,15 @@ public class GameEndGUI extends JFrame implements ActionListener
 		return record;
 	}
 	
+	/**
+	 * 
+	 * Purpose: Checks the current game finish data against the previously stored record to figure out if the new data should be stored as the record
+	 * @param recordData the current game finishing data
+	 * @return true if there was a new record, false if not
+	 * @throws FileNotFoundException
+	 * @throws NumberFormatException
+	 * @throws IndexOutOfBoundsException
+	 */
 	public boolean checkRecord(String recordData) throws FileNotFoundException, NumberFormatException, IndexOutOfBoundsException
 	{
 		System.out.println("Checking for new record!");
@@ -217,6 +245,12 @@ public class GameEndGUI extends JFrame implements ActionListener
 		
 	}
 	
+	/**
+	 * 
+	 * Purpose: Writes the input data into the record file
+	 * @param recordData the input string to write into the file
+	 * @throws FileNotFoundException
+	 */
 	public void writeRecord(String recordData) throws FileNotFoundException
 	{
 		System.out.println("Writing Record!");

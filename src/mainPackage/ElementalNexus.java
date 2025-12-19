@@ -35,9 +35,9 @@ public class ElementalNexus extends Enemy
 	private int rampUp;
 
 	/**
-	 * Purpose:
+	 * Purpose: General constructor for the enemy, passes along to the superconstructor
 	 * 
-	 * @param inSeed
+	 * @param inSeed the seed for the enemy to properly populate its fields
 	 */
 	public ElementalNexus(int inSeed)
 	{

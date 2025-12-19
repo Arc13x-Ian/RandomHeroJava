@@ -29,6 +29,11 @@ public class GameMain
 	static CombatManager combatManager;
 	static String playerName;
 	
+	/**
+	 * 
+	 * Purpose: the main "game" method. Sets up the game for play.
+	 * @throws FileNotFoundException
+	 */
 	public static void main(String[] args) throws FileNotFoundException
 	{
 		playerName = JOptionPane.showInputDialog("Who are you, Hero?", JOptionPane.QUESTION_MESSAGE);
@@ -41,6 +46,11 @@ public class GameMain
 		combatManager.setupCombat();
 	}
 
+	/**
+	 * 
+	 * Purpose: Replays the game by resetting things, and allowing the player to rename their character, only creating a new GUI window.
+	 * @throws FileNotFoundException
+	 */
 	public static void replayGame() throws FileNotFoundException
 	{
 		playerName = JOptionPane.showInputDialog("Who enters the dungeon?", JOptionPane.QUESTION_MESSAGE);

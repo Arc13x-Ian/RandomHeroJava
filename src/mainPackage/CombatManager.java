@@ -50,24 +50,31 @@ public class CombatManager
 	private int levelCounter = 0; // this goes up whenever the player wins
 									// combat, and is used by setupCombat.
 
-	private boolean[] knownSkills; //TRUE skills should not be picked for learning.
+	private boolean[] knownSkills; // TRUE skills should not be picked for
+									// learning.
 	private Random random;
 	private GameScreenGUI gameWindow;
-	
+
 	private int turnCount;
 
 	// Constructor
 
+	/**
+	 * 
+	 * Purpose: general constructor for the combat manager
+	 * 
+	 * @param PC the player character
+	 */
 	public CombatManager(PlayerCharacter PC)
 	{
 		player = PC;
 		player.setCombatManager(this);
 		turnCount = 0;
-		
-		//create the random generator
+
+		// create the random generator
 		random = new Random();
-		//set all knownSkills to false
-		//the array length = the amount of skills in the game
+		// set all knownSkills to false
+		// the array length = the amount of skills in the game
 		knownSkills = new boolean[8];
 		for (int i = 0; i < knownSkills.length; i++)
 		{
@@ -77,10 +84,18 @@ public class CombatManager
 
 	// Methods
 
+	/**
+	 * 
+	 * Purpose: Creates a new enemy for the next level of combat (or causes the
+	 * game to be won), before beginning combat
+	 * 
+	 * @throws FileNotFoundException
+	 */
 	public void setupCombat() throws FileNotFoundException
 	{
 		// first, we check the level counter
-		// level counter == 6 means the game is over, so instead of doing anything else, we just win game.
+		// level counter == 6 means the game is over, so instead of doing
+		// anything else, we just win game.
 		switch (levelCounter)
 		{
 			case 0:
@@ -94,31 +109,31 @@ public class CombatManager
 				combatLogMessage("Ice Sprite Encountered!");
 				combatEnemy = new IceSprite(1);
 				break;
-				
+
 			case 2:
 				System.out.println("Deep Ooze Encountered!");
 				combatLogMessage("Deep Ooze Encountered!");
 				combatEnemy = new DeepOoze(2);
 				break;
-				
+
 			case 3:
 				System.out.println("Cursed Armor Encountered!");
 				combatLogMessage("Cursed Armor Encountered!");
 				combatEnemy = new CursedArmor(3);
 				break;
-				
+
 			case 4:
 				System.out.println("Elemental Nexus Encountered!");
 				combatLogMessage("Elemental Nexus Encountered!");
 				combatEnemy = new ElementalNexus(4);
 				break;
-				
+
 			case 5:
 				System.out.println("FINAL BOSS: Demon Lord!");
 				combatLogMessage("FINAL BOSS: Demon Lord!");
 				combatEnemy = new DemonLord(5);
 				break;
-				
+
 			case 6:
 				gameWin();
 				break;
@@ -131,13 +146,17 @@ public class CombatManager
 		// combat manager to be here.
 		if (levelCounter < 6)
 		{
-			beginCombat();			
+			beginCombat();
 		}
 	}
 
+	/**
+	 * 
+	 * Purpose: sets the new enemy's target to the player, and its combat
+	 * manager to this object, before allowing combat to start.
+	 */
 	public void beginCombat()
 	{
-		// TODO: move all of this into a "setup combat" method.
 		// when combat starts, set the enemy to target the player, and give the
 		// enemy its combat manager
 		combatEnemy.setTarget(player);
@@ -149,10 +168,16 @@ public class CombatManager
 		// enemyTurn = false;
 	}
 
+	/**
+	 * 
+	 * Purpose: Calls the activate() method of the current enemy in combat if
+	 * they are not dead.
+	 */
 	public void enemyTurn()
 	{
-		//lets wrap the WHOOOOLE thing in an if so we don't get enemy + player turn
-		if (combatEnemy.getHP() > 0) //if the enemy is ALIVE
+		// lets wrap the WHOOOOLE thing in an if so we don't get enemy + player
+		// turn
+		if (combatEnemy.getHP() > 0) // if the enemy is ALIVE
 		{
 			System.out.println("Enemy turn");
 			if (combatActive)
@@ -160,25 +185,35 @@ public class CombatManager
 				combatEnemy.takeTurn();
 			}
 			turnCount++;
-			gameWindow.refreshGUI();			
+			gameWindow.refreshGUI();
 		}
 	}
 
+	/**
+	 * 
+	 * Purpose: Does the clerical systemic processes after one combat and before
+	 * the next one, having the player level up, and the game trigger an
+	 * upgrade.
+	 * 
+	 * @param victor int that tells the method who the winner of the fight was
+	 *               (deprecated in use)
+	 */
 	public void endCombat(int victor)
 	{
-		
+
 		combatActive = false;
-//		winner = victor;
+		// winner = victor;
 		levelCounter++;
 		// Debug message to make sure we're getting out of combat
-		if (levelCounter < 6) //if its 6 that means game is over so we don't need to do this
+		if (levelCounter < 6) // if its 6 that means game is over so we don't
+								// need to do this
 		{
 			System.out.println("Combat is over!");
-			
+
 			gameWindow.updateCombatLog(player.getName() + "Level Up!");
 			player.levelUp();
 			gameWindow.updateCombatLog("Choose an Upgrade.");
-			upgradeTime();			
+			upgradeTime();
 		}
 		try
 		{
@@ -191,24 +226,38 @@ public class CombatManager
 		}
 	}
 
+	/**
+	 * 
+	 * Purpose: randomly compiles a list of 3 skills the player does NOT yet
+	 * know, then allows the player to choose between them. After choosing, the
+	 * game will add that skill to the player's list of known skills.
+	 */
 	public void upgradeTime()
 	{
-		String[] upgradeOptions; //array of strings we pass to the GUI for the buttons
-		String optionZero = null; //first string
-		String optionOne = null; //second string
-		String optionTwo = null; //third string
-		
-		int seedZero = -99; //used to create the proper skill and disable boolean value
-		int seedOne = -99; //used to create the proper skill and disable boolean value
-		int seedTwo = -99; //used to create the proper skill and disable boolean value
-		int testSeed; //what random will be spitting numbers into
-		
-		Ability upgradeZero = null; //the actual ability to pass to the player if chosen
-		Ability upgradeOne = null; //the actual ability to pass to the player if chosen
-		Ability upgradeTwo = null; //the actual ability to pass to the player if chosen
-		
-		int selectedUpgrade; //the GUI button press will return a value here, use to create proper skill
-		
+		String[] upgradeOptions; // array of strings we pass to the GUI for the
+									// buttons
+		String optionZero = null; // first string
+		String optionOne = null; // second string
+		String optionTwo = null; // third string
+
+		int seedZero = -99; // used to create the proper skill and disable
+							// boolean value
+		int seedOne = -99; // used to create the proper skill and disable
+							// boolean value
+		int seedTwo = -99; // used to create the proper skill and disable
+							// boolean value
+		int testSeed; // what random will be spitting numbers into
+
+		Ability upgradeZero = null; // the actual ability to pass to the player
+									// if chosen
+		Ability upgradeOne = null; // the actual ability to pass to the player
+									// if chosen
+		Ability upgradeTwo = null; // the actual ability to pass to the player
+									// if chosen
+
+		int selectedUpgrade; // the GUI button press will return a value here,
+								// use to create proper skill
+
 		boolean generatingUpgrades = true;
 		// first, we pick a random ability seed number
 		// then, we check the player's ability skills arrayList and see if any
@@ -216,121 +265,150 @@ public class CombatManager
 		// if there are, we roll again
 		while (generatingUpgrades)
 		{
-			testSeed = random.nextInt(knownSkills.length); //first, grab a random number.
-			
-			if (knownSkills[testSeed] == false) //if we do NOT know this particular skill
+			testSeed = random.nextInt(knownSkills.length); // first, grab a
+															// random number.
+
+			if (knownSkills[testSeed] == false) // if we do NOT know this
+												// particular skill
 			{
-				if (seedZero < 0) //there are no negative skill seeds, so this means the slot is not filled
+				if (seedZero < 0) // there are no negative skill seeds, so this
+									// means the slot is not filled
 				{
-					seedZero = testSeed; //our first upgrade option is the randomly selected one
-					upgradeZero = createSkill(seedZero); //we create the skill for our first upgrade option
-					optionZero = upgradeZero.getName(); //and our first "option" for buttons is the name of the skill tied to this seed
+					seedZero = testSeed; // our first upgrade option is the
+											// randomly selected one
+					upgradeZero = createSkill(seedZero); // we create the skill
+															// for our first
+															// upgrade option
+					optionZero = upgradeZero.getName(); // and our first
+														// "option" for buttons
+														// is the name of the
+														// skill tied to this
+														// seed
 				}
-				else if (seedOne < 0 && testSeed != seedZero) //if we have picked our first skill, we move on to the next one and repeat
+				else if (seedOne < 0 && testSeed != seedZero) // if we have
+																// picked our
+																// first skill,
+																// we move on to
+																// the next one
+																// and repeat
 				{
 					seedOne = testSeed;
 					upgradeOne = createSkill(seedOne);
 					optionOne = upgradeOne.getName();
 				}
-				else if (seedTwo < 0 && testSeed != seedZero && testSeed != seedOne)
+				else if (seedTwo < 0 && testSeed != seedZero
+						&& testSeed != seedOne)
 				{
 					seedTwo = testSeed;
 					upgradeTwo = createSkill(seedTwo);
 					optionTwo = upgradeTwo.getName();
-					//IF we are filling the third seed, then we have filled all seeds, and are done generating upgrades.
+					// IF we are filling the third seed, then we have filled all
+					// seeds, and are done generating upgrades.
 					generatingUpgrades = false;
 				}
 			}
-			//if we are down here, we've either deposited a skill into one slot, or we've pulled a number the player knows.
-			//either way, loop again if we haven't filled all 3 seeds.
+			// if we are down here, we've either deposited a skill into one
+			// slot, or we've pulled a number the player knows.
+			// either way, loop again if we haven't filled all 3 seeds.
 		}
-		
-		// next, populate the array of options strings containing the names of the chosen upgrades.
+
+		// next, populate the array of options strings containing the names of
+		// the chosen upgrades.
 		upgradeOptions = new String[3];
-		upgradeOptions[0] = optionZero; //since we grabbed the names for the skills we made, we just pass them in.
+		upgradeOptions[0] = optionZero; // since we grabbed the names for the
+										// skills we made, we just pass them in.
 		upgradeOptions[1] = optionOne;
 		upgradeOptions[2] = optionTwo;
-		
+
 		// and pass it to the GameScreenGUI's upgradeChecker() method
 		selectedUpgrade = gameWindow.upgradeChecker(upgradeOptions);
 		// that one will return an int pertaining to which option the player
 		// picked.
-		
+
 		// whichever one the player chooses, call the playerCharacter's
 		// learnSkill() to learn that skill
-		switch(selectedUpgrade)
+		switch (selectedUpgrade)
 		{
-			//on the bright side, everything lines up naturally.
-			//our first option was 0, then our second option 1, then our third 2.
-			//clicking the left button will return 0, the middle 1, and the right 2.
-			//that means if selectedUpgrade is 0, the ability we want to ADD is 0.
-			
-			//on top of that, we will set the bool in the "known skills" array to be true for the linked skill
-			//so that the skill will not get rolled again.
+			// on the bright side, everything lines up naturally.
+			// our first option was 0, then our second option 1, then our third
+			// 2.
+			// clicking the left button will return 0, the middle 1, and the
+			// right 2.
+			// that means if selectedUpgrade is 0, the ability we want to ADD is
+			// 0.
+
+			// on top of that, we will set the bool in the "known skills" array
+			// to be true for the linked skill
+			// so that the skill will not get rolled again.
 			case 0:
 				player.learnSkill(upgradeZero);
 				knownSkills[seedZero] = true;
 				break;
-				
+
 			case 1:
 				player.learnSkill(upgradeOne);
 				knownSkills[seedOne] = true;
 				break;
-				
+
 			case 2:
 				player.learnSkill(upgradeTwo);
 				knownSkills[seedTwo] = true;
 				break;
 		}
-		
 
 		// TODO: for now we're going to make a preset list of buttons, and then
 		// add that skill to the player.
-		
+
 		///// EVERYTHING BELOW HERE IS THE DEBUG TEST VERSION, DO NOT USE /////
 		///// EVERYTHING BELOW HERE IS THE DEBUG TEST VERSION, DO NOT USE /////
 		///// EVERYTHING BELOW HERE IS THE DEBUG TEST VERSION, DO NOT USE /////
 		///// EVERYTHING BELOW HERE IS THE DEBUG TEST VERSION, DO NOT USE /////
 		///// EVERYTHING BELOW HERE IS THE DEBUG TEST VERSION, DO NOT USE /////
 
-
-//		String[] demoUpgradeOptions = { "Fire I", "Cure", "Atk Break" };
-//
-//		selectedUpgrade = gameWindow.upgradeChecker(demoUpgradeOptions);
-//		// selected upgrade is an int that now stores the button the player
-//		// checked on the menu.
-//		// we need to, initially, make an array of the 3 abilities we're
-//		// passing in and then just have the player learn from that array using
-//		// selectedUpgrade
-//
-//		//DEBUG STUFF THIS IS DEBUG STUFF
-//		ability upgradeAbility = new FireSpell(0, player);
-//		switch(selectedUpgrade)
-//		{
-//			case 0: //first button
-//				upgradeAbility = new FireSpell(0, player); // DEBUG STUFF: THIS IS JUST
-//				// A TEST FIRE SPELL
-//				break;
-//				
-//			case 1: //second button
-//				upgradeAbility = new CureSpell(1, player);
-//				break;
-//				
-//			case 2: //third button
-//				upgradeAbility = new AtkBreakSkill(3, player);
-//				break;
-//		}
-//
-//		// switch (selectedUpgrade)
-//		// {
-//		// case 0:
-//		//
-//		// }
-//		player.learnSkill(upgradeAbility);
-//
-//		// then, call the next setupCombat() method.
+		// String[] demoUpgradeOptions = { "Fire I", "Cure", "Atk Break" };
+		//
+		// selectedUpgrade = gameWindow.upgradeChecker(demoUpgradeOptions);
+		// // selected upgrade is an int that now stores the button the player
+		// // checked on the menu.
+		// // we need to, initially, make an array of the 3 abilities we're
+		// // passing in and then just have the player learn from that array
+		// using
+		// // selectedUpgrade
+		//
+		// //DEBUG STUFF THIS IS DEBUG STUFF
+		// ability upgradeAbility = new FireSpell(0, player);
+		// switch(selectedUpgrade)
+		// {
+		// case 0: //first button
+		// upgradeAbility = new FireSpell(0, player); // DEBUG STUFF: THIS IS
+		// JUST
+		// // A TEST FIRE SPELL
+		// break;
+		//
+		// case 1: //second button
+		// upgradeAbility = new CureSpell(1, player);
+		// break;
+		//
+		// case 2: //third button
+		// upgradeAbility = new AtkBreakSkill(3, player);
+		// break;
+		// }
+		//
+		// // switch (selectedUpgrade)
+		// // {
+		// // case 0:
+		// //
+		// // }
+		// player.learnSkill(upgradeAbility);
+		//
+		// // then, call the next setupCombat() method.
 	}
 
+	/**
+	 * 
+	 * Purpose: When the player scans the enemy for info, this method is called,
+	 * to pull the scan info from the enemy, and push it to the GUI.
+	 */
 	public void scan()
 	{
 		String messages[] = combatEnemy.scanForInfo();
@@ -351,9 +429,15 @@ public class CombatManager
 	// enemyTurn = false;
 	// }
 
+	/**
+	 * 
+	 * Purpose: Activates an ability from a given array of abilities, then calls on the enemy to act.
+	 * @param skills an array of  abilities
+	 * @param selection the index of which ability in the array to activate
+	 */
 	public void useSkill(Ability[] skills, int selection)
 	{
-		//we pull this from the GUI to see if that fixes things
+		// we pull this from the GUI to see if that fixes things
 		skills[selection].activate(combatEnemy);
 
 		// finally, since activating the skill should be the player's turn, we
@@ -361,71 +445,91 @@ public class CombatManager
 		enemyTurn();
 	}
 
+	/**
+	 * 
+	 * Purpose: pushes a string to the GUI to put in its combat log
+	 * @param combatLog the message to put in the combat log
+	 */
 	public void combatLogMessage(String combatLog)
 	{
 		// anything from the player or enemy that currently prints a debug
 		// message should now boot that message into this method.
 		gameWindow.updateCombatLog(combatLog);
 	}
-	
+
+	/**
+	 * 
+	 * Purpose: Factory pattern method designed to be capable of creating any skill in the game when needed.
+	 * @param input the index of the skill that we want to create, linked up to the index on the Ability constructor.
+	 * @return the created Ability
+	 */
 	public Ability createSkill(int input)
 	{
-		//this is just a big long Factory Pattern
-		//a switch case that can create any skill.
-		//when the upgradeTime method knows which skill the player wants, we'll go down here
-		//create that skill, and return it back upwards for the upgrade time method to give.
+		// this is just a big long Factory Pattern
+		// a switch case that can create any skill.
+		// when the upgradeTime method knows which skill the player wants, we'll
+		// go down here
+		// create that skill, and return it back upwards for the upgrade time
+		// method to give.
 		Ability createdAbility;
-		
-		//check the ability class to ensure your switch case index matches this one.
-		switch(input)
+
+		// check the ability class to ensure your switch case index matches this
+		// one.
+		switch (input)
 		{
 			case 0:
 				createdAbility = new FireSpell(0, player);
 				break;
-				
-			case 1: 
+
+			case 1:
 				createdAbility = new CureSpell(1, player);
 				break;
-				
-			case 2: 
+
+			case 2:
 				createdAbility = new DualStrikeSkill(2, player);
 				break;
-				
+
 			case 3:
 				createdAbility = new AtkBreakSkill(3, player);
 				break;
-				
+
 			case 4:
 				createdAbility = new DefBreakSkill(4, player);
 				break;
-				
+
 			case 5:
 				createdAbility = new FocusingStrikeSkill(5, player);
 				break;
-				
+
 			case 6:
 				createdAbility = new HolyBladeSkill(6, player);
 				break;
-				
+
 			case 7:
 				createdAbility = new FrostLanceSkill(7, player);
-				
-			default: 
+
+			default:
 				createdAbility = new FireSpell(0, player);
-				
+
 		}
-		
+
 		return createdAbility;
 	}
-	
+
+	/**
+	 * 
+	 * Purpose: Cleans up the game window and creates the post game GUI on loss.
+	 * @throws FileNotFoundException
+	 */
 	public void gameLose() throws FileNotFoundException
 	{
-		//what to do:
-		//0) reset clerical stuff (Set level counter to 0, and set all skills to unknown
-		//1) disable game window
-		//2) generate new loss window that can be used to reset the game
+		// what to do:
+		// 0) reset clerical stuff (Set level counter to 0, and set all skills
+		// to unknown
+		// 1) disable game window
+		// 2) generate new loss window that can be used to reset the game
 		int finalFloor = player.getLevel();
-		
+
 		resetGame();
 		player.resetStats();
 		gameWindow.dispose();
@@ -438,39 +542,58 @@ public class CombatManager
 			e.printStackTrace();
 		}
 
-		
 	}
-	
+
+	/**
+	 * 
+	 * Purpose: Cleans up the game window and creates the post game GUI on win! 
+	 * @throws FileNotFoundException
+	 */
 	public void gameWin() throws FileNotFoundException
 	{
-		//what to do:
-		//0) reset clerical stuff (Set level counter to 0, and set all skills to unknown
-		//1) disable game window
-		//2) generate new victory window for the game victory!
+		// what to do:
+		// 0) reset clerical stuff (Set level counter to 0, and set all skills
+		// to unknown
+		// 1) disable game window
+		// 2) generate new victory window for the game victory!
 		int finalFloor = player.getLevel();
-		
+
 		resetGame();
 		player.resetStats();
 		gameWindow.dispose();
 		new GameEndGUI(true, turnCount, finalFloor, player);
 	}
-	
+
+	/**
+	 * 
+	 * Purpose: resets the tracking fields in the case of the player wanting to play the game again.
+	 */
 	public void resetGame()
 	{
 		levelCounter = 0;
-		
+
 		for (int x = 0; x < knownSkills.length; x++)
 		{
-			knownSkills[x] = false; //we know nothing
+			knownSkills[x] = false; // we know nothing
 		}
 	}
 
 	// getters and setters
+	/**
+	 * 
+	 * Purpose: Getter class for the current Enemy 
+	 * @return the current Enemy in combat
+	 */
 	public Enemy getEnemy()
 	{
 		return combatEnemy;
 	}
 
+	/**
+	 * 
+	 * Purpose: setter class for the gameWindow
+	 * @param inGUI the GameScreenGUI object to be set
+	 */
 	public void setGUI(GameScreenGUI inGUI)
 	{
 		gameWindow = inGUI;

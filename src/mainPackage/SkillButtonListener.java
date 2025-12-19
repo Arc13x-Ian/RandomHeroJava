@@ -36,6 +36,13 @@ public class SkillButtonListener implements ActionListener
 	private CombatManager combat;
 	
 	//constructor
+	/**
+	 * 
+	 * Purpose: DEPRECATED actionlistener constructor for the deprecated skill buttons class
+	 * @param inSkill the attached skill to activate on click
+	 * @param inEnemy the enemy to target
+	 * @param inCombat the combatManager
+	 */
 	public SkillButtonListener(Ability inSkill, Enemy inEnemy, CombatManager inCombat)
 	{
 		attachedSkill = inSkill;

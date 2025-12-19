@@ -29,9 +29,9 @@ public class FocusingStrikeSkill extends Ability
 {
 
 	/**
-	 * Purpose: 
-	 * @param inSeed
-	 * @param hero
+	 * Purpose: General Constructor for the skill, passes to superconstructor
+	 * @param inSeed the skill seed which helps the superconductor know what to do
+	 * @param hero the player character
 	 */
 	public FocusingStrikeSkill(int inSeed, PlayerCharacter hero)
 	{

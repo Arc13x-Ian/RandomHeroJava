@@ -55,9 +55,9 @@ public class GameScreenGUI extends JFrame
 	private JPanel upgradeScreen;
 	private JPanel startScreen;
 	private JPanel skillsMenu;
-	
+
 	private JLabel[] playerStatsArray;
-	
+
 	private JLabel[] combatLogArray;
 	private String[] combatLogStringsArray;
 
@@ -79,6 +79,14 @@ public class GameScreenGUI extends JFrame
 
 	// Constructors
 
+	/**
+	 * 
+	 * Purpose: General constructor that sets up the base GUI
+	 * 
+	 * @param inPlayer the player character object
+	 * @param inCombat the combat manager object- the "observer" or "Model" for
+	 *                 the game.
+	 */
 	public GameScreenGUI(PlayerCharacter inPlayer, CombatManager inCombat)
 	{
 		player = inPlayer;
@@ -110,6 +118,11 @@ public class GameScreenGUI extends JFrame
 
 	// methods
 
+	/**
+	 * 
+	 * Purpose: sets up the "action panel" for the player, the set of four
+	 * buttons that trigger the PlayerCharacter's main actions
+	 */
 	public void setupActionMenu()
 	{
 		actionMenu = new JPanel();
@@ -120,9 +133,14 @@ public class GameScreenGUI extends JFrame
 		actionMenu.add(new playerButton(0, player, combat, this));
 		actionMenu.add(new playerButton(1, player, combat, this));
 		actionMenu.add(new playerButton(2, player, combat, this));
-		actionMenu.add(new playerButton(3, player, combat,this));
+		actionMenu.add(new playerButton(3, player, combat, this));
 	}
 
+	/**
+	 * 
+	 * Purpose: sets up the "combat log", the set of strings that keeps the
+	 * player informed of what's happening in combat
+	 */
 	public void setupCombatLog()
 	{
 		// TODO: the combat log should probably be its own class so it can have
@@ -144,6 +162,11 @@ public class GameScreenGUI extends JFrame
 		}
 	}
 
+	/**
+	 * 
+	 * Purpose: sets up the player's stat panel, which tracks their name and
+	 * HP/MP, so the player can visually track these statistics
+	 */
 	public void setupPlayerStats()
 	{
 		playerStatsArray = new JLabel[5];
@@ -162,6 +185,14 @@ public class GameScreenGUI extends JFrame
 		}
 	}
 
+	/**
+	 * 
+	 * Purpose: sets up the battle screen that goes in the center of the
+	 * player's view. DEPRECATED.
+	 * 
+	 * @param combatEnemies the enemy/enemies in combat so their proper visual
+	 *                      tokens can be used
+	 */
 	public void setupNewBattleScreen(ArrayList<Enemy> combatEnemies)
 	{
 		battleScreen = new JPanel();
@@ -174,6 +205,10 @@ public class GameScreenGUI extends JFrame
 		// TODO: POTENTIALLY ABANDONED, TESTING USING JLABEL
 	}
 
+	/**
+	 * 
+	 * Purpose: Sets up the mock UI for combat featuring a hero and a goblin.
+	 */
 	public void setupTestBattleView()
 	{
 		// TODO: require input of an array list of enemies
@@ -219,56 +254,93 @@ public class GameScreenGUI extends JFrame
 
 	// NON SETUP METHODS
 
+	/**
+	 * 
+	 * Purpose: refreshes the player's stats after each turn to represent their
+	 * accurate values!
+	 */
 	public void refreshGUI()
 	{
 		playerStatsArray[1].setText("HP: " + player.getHealth() + " / 50");
 		playerStatsArray[2].setText("MP: " + player.getMana() + " / 25");
 		this.add(actionMenu, BorderLayout.SOUTH);
 	}
-	
+
 	public void refreshCombatScreen()
 	{
-		
+
 	}
-	
+
+	/**
+	 * 
+	 * Purpose: generates the buttons used to pick the new skill the player
+	 * wants DEPRECATED
+	 * 
+	 * @param options an array of abilities to pick from, the names for which
+	 *                are used for the buttons on the selection
+	 * @return
+	 */
 	public int upgradeChecker(Object[] options)
 	{
-		return JOptionPane.showOptionDialog(null, "Level Up! Choose an Upgrade:", "RandomHero", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, null);
+		return JOptionPane.showOptionDialog(null,
+				"Level Up! Choose an Upgrade:", "RandomHero",
+				JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE,
+				null, options, null);
 	}
-	
+
+	/**
+	 * 
+	 * Purpose: generates the buttons used to pick the new skill the player
+	 * wants
+	 * 
+	 * @param skills an array of abilities to be used to create the buttons
+	 */
 	public void generateSkillMenu(Ability[] skills)
 	{
-		//so, the goal is to create a bevy of buttons by:
-		//reading the ability array, and for each button, attaching the ability in the array
-		//then, those buttons are placed on a little menu and presented to the player
-		//each button should have a listener that is able to call the attached ability's activate() method on the enemy in combat.
-		
+		// so, the goal is to create a bevy of buttons by:
+		// reading the ability array, and for each button, attaching the ability
+		// in the array
+		// then, those buttons are placed on a little menu and presented to the
+		// player
+		// each button should have a listener that is able to call the attached
+		// ability's activate() method on the enemy in combat.
+
 		String[] skillNames = new String[skills.length];
-		
+
 		for (int i = 0; i < skills.length; i++)
 		{
 			skillNames[i] = skills[i].getName();
 		}
-		
-		//create an option dialog that has the player pick a skill from their known skills
-		int selection = JOptionPane.showOptionDialog(null, "Skills:", "RandomHero", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, skillNames, null);
-		//then, we activate that skill against the known enemy
+
+		// create an option dialog that has the player pick a skill from their
+		// known skills
+		int selection = JOptionPane.showOptionDialog(null, "Skills:",
+				"RandomHero", JOptionPane.YES_NO_CANCEL_OPTION,
+				JOptionPane.PLAIN_MESSAGE, null, skillNames, null);
+		// then, we activate that skill against the known enemy
 		combat.useSkill(skills, selection);
 	}
-	
+
+	/**
+	 * 
+	 * Purpose: Whenever something happens that the players should know about,
+	 * this method is called to put the information into the combat log
+	 * 
+	 * @param newMessage the string bearing data to be displayed.
+	 */
 	public void updateCombatLog(String newMessage)
 	{
-		//first, we shuffle every log in the combat log upwards by 1.
+		// first, we shuffle every log in the combat log upwards by 1.
 		for (int i = 0; i < combatLogArray.length - 1; i++)
 		{
-			//combat log 0 has its text set to the text from combat log 1
-			//then combat log 1 has its text set to the text from combat log 2
-			//and so on
-			combatLogArray[i].setText(combatLogArray[i+1].getText());
+			// combat log 0 has its text set to the text from combat log 1
+			// then combat log 1 has its text set to the text from combat log 2
+			// and so on
+			combatLogArray[i].setText(combatLogArray[i + 1].getText());
 		}
-		//then we set the combat log array's final line to be our new thing.
+		// then we set the combat log array's final line to be our new thing.
 		combatLogArray[9].setText(newMessage);
-		
+
 	}
 
 }

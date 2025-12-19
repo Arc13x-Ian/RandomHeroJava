@@ -39,6 +39,12 @@ public class Ability
 	
 	
 	//constructor
+	/**
+	 * 
+	 * Purpose: General Constructor for abilities- maintains ability information for easy reference later on
+	 * @param inSeed the "seed" of the ability, which determines its statistics
+	 * @param hero the player character, for abilities that affect the player
+	 */
 	public Ability(int inSeed, PlayerCharacter hero)
 	{
 		player = hero;
@@ -151,21 +157,38 @@ public class Ability
 	
 	//methods
 	
+	/**
+	 * 
+	 * Purpose: This method will be different for every child ability class, and will bear each skill's functionality within it.
+	 * @param target the enemy that is currently in combat (which may or may not be used for the ability's effects).
+	 */
 	public void activate(Enemy target)
 	{
 		//OVERRIDE THIS
 	}
 	
+	/**
+	 * 
+	 * Purpose: check if the ability is passive or not. DEPRECATED.
+	 * @return true if passive, false if active
+	 */
 	public boolean getPassive()
 	{
 		return isPassive;
 	}
 	
+	/**
+	 * 
+	 * Purpose: getter for the skill name
+	 * @return the skillName value
+	 */
 	public String getName()
 	{
 		return skillName;
 	}
 	
+	
+	@Override
 	public String toString()
 	{
 		if (this.isPassive)

@@ -29,5 +29,5 @@ public interface usable
 {
 	public abstract void use();
 	
-
+	//DEPRECATED CLASS
 }

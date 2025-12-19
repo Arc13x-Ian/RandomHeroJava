@@ -38,8 +38,11 @@ public class playerButtonListener implements ActionListener
 	private GameScreenGUI screen;
 
 	/**
-	 * Purpose: 
+	 * Purpose: The general constructor for the button listener for all playerButtons- has different actions performed based on the button's "Seed"
 	 * @param inSeed the tracker so it knows what it does when the button is pressed.
+	 * @param inPlayer the playerCharacter object, needed for activating playerCharacter methods
+	 * @param inCombat the combatManager, needed for knowing what the current enemy is
+	 * @param inScreen the GameScreenGUI, needed to send the Skills info to the GUI so it can generate the skill buttons.
 	 */
 	public playerButtonListener(int inSeed, PlayerCharacter inPlayer, CombatManager inCombat, GameScreenGUI inScreen)
 	{
@@ -63,10 +66,9 @@ public class playerButtonListener implements ActionListener
 				break;
 				
 			case 2: //skills case
-				//TODO: skills needs to populate a menu of skills and display it. Maybe a new widget/window.
 				Ability[] knownAbilities = player.listSkills();
 				
-				//TODO: here we will be printing out the skills in console. What we NEED to do is create either a new widget, a new window, or a JOptionPane
+				//What we NEED to do is create either a new widget, a new window, or a JOptionPane
 				//that lists the skills with buttons, then calls player.activateSkill(x) where x is the skill to activate.
 				if (knownAbilities.length > 0 && player.getMana() > 0)
 				{

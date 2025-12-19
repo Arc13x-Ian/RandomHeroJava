@@ -32,9 +32,9 @@ public class DeepOoze extends Enemy
 	int turnCounter = 1;
 
 	/**
-	 * Purpose:
+	 * Purpose: General constructor for the enemy, passes along to the superconstructor
 	 * 
-	 * @param inSeed
+	 * @param inSeed the seed for the enemy to properly populate its fields
 	 */
 	public DeepOoze(int inSeed)
 	{

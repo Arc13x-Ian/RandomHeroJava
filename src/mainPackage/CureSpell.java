@@ -31,15 +31,13 @@ public class CureSpell extends Ability
 {
 
 	/**
-	 * Purpose:
-	 * 
-	 * @param inSeed
-	 * @param hero
+	 * Purpose: General Constructor for the skill, passes to superconstructor
+	 * @param inSeed the skill seed which helps the superconductor know what to do
+	 * @param hero the player character
 	 */
 	public CureSpell(int inSeed, PlayerCharacter hero)
 	{
 		super(inSeed, hero);
-		// TODO Auto-generated constructor stub
 	}
 
 	// methods

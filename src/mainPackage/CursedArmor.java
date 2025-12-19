@@ -37,9 +37,9 @@ public class CursedArmor extends Enemy
 	private Random rand;
 
 	/**
-	 * Purpose:
+	 * Purpose: General constructor for the cursed armor, passes along to the superconstructor
 	 * 
-	 * @param inSeed
+	 * @param inSeed the seed for the enemy to properly populate its fields
 	 */
 	public CursedArmor(int inSeed)
 	{
